@@ -1,4 +1,4 @@
-# ecommerce encargado de la presentación
+# Ecommerce
 
 ## Problema que resuelve
 Permite la compra y venta de productos en línea de manera ininterrumpida, gestionando picos de tráfico durante eventos de alta demanda como Black Friday sin que la plataforma se caiga o procese cobros duplicados.
@@ -36,6 +36,7 @@ Permite la compra y venta de productos en línea de manera ininterrumpida, gesti
 * **Enfoque:** Database per Service, cada microservicio maneja su propia base de datos.
 * **Datos críticos:** Transacciones de pago, historial de pedidos y stock.
 * **Riesgo por pérdida:** Pérdida de dinero, duplicidad de pedidos y reclamos legales de clientes.
+
 
 ```mermaid
 graph TD
