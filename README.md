@@ -17,3 +17,11 @@ Permite la compra y venta de productos en línea de manera ininterrumpida, gesti
 * **Pedidos → Pagos:** El servicio de Pedidos solicita procesar la transacción financiera.
 * **Pagos → Pedidos:** Pagos confirma si la transacción fue exitosa para cambiar el estado de la orden.
 * **Pedidos → Notificaciones:** Pedidos emite un evento para enviar la confirmación por correo al cliente.
+
+```mermaid
+graph TD
+    Cliente -->|1. Pide Producto| Pedidos
+    Pedidos -->|2. Consulta Stock| Inventario
+    Pedidos -->|3. Solicita Cobro| Pagos
+    Pagos -->|4. Confirma Pago| Pedidos
+    Pedidos -->|5. Activa Alerta| Notificaciones
