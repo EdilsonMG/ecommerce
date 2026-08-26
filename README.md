@@ -8,3 +8,8 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 - Pedidos
 - Pagos
 - Notificaciones
+
+# Posibles fallos y riesgos
+- El pedido al no completarse se pierde
+- No responde la base de datos
+- No se envían los mensajes de confirmación
