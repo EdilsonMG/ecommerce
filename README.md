@@ -62,10 +62,3 @@ La petición se redirige a otra instancia disponible evitando que el sistema que
 - Reintentos automáticos con limite entre servicios que fallan
 - Notificaciones al usuario y al equipo tecnico cuando falla una operacion critica
 
-# Revisión tecnica
-
-## Por que microservicios como arquitectura 
-Porque cada parte del ecommerce puede crecer y fallar de forma independiente y los microservicios permiten escalar solo lo que realmente necesita
-
-## Por qué cada servicio tiene su propia base de datos
-Para que un problema en una base no afecte a las demás y cada servicio pueda evolucionar sin dependerde los otros.
