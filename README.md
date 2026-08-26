@@ -49,13 +49,13 @@ Cada base de datos tiene su propia base de datos personal, asi cuando haya un pr
 
 ## Que pasaría si falla
 
-- Sistema de pagos
+# Sistema de pagos
 El pedido queda en estado pendiente en vez de perderse
 
-- Base de datos
+# Base de datos
 se activa una réplica de respaldo para no dejar el sistema totalmente caido
 
-- Servidor principal
+# Servidor principal
 La petición se redirige a otra instancia disponible evitando que el sistema quede sin acceso
 
 ## Soluciones
