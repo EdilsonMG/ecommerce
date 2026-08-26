@@ -29,16 +29,6 @@ agregar nuevos comercios sin afectar el resto del sistema.
 
 ---
 
-## Fallas y riesgos
-
-| Si falla... | Consecuencia | Solución propuesta |
-|---|---|---|
-| Servicio de pagos | Pedidos quedan sin confirmar | Reintentos automáticos + cola de mensajes |
-| Base de datos | Pérdida/inconsistencia de datos | Respaldos periódicos + réplicas |
-| Servidor principal | Plataforma caída | Balanceador de carga + servidores redundantes |
-
----
-
 ## Revisión del equipo
 
 - Se verificó que los servicios no se solapen en responsabilidades.
