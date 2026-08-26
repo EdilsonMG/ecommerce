@@ -13,3 +13,14 @@
 * **Pedidos → Pagos (Asíncrona - Event/HTTP):** Pedidos solicita al servicio de Pagos la transacción. Pagos confirma el resultado del cobro para que Pedidos actualice el estado a Aprobado.
 * **Pagos → Inventario (Asíncrona - Event-Driven):** Tras la confirmación del pago exitoso, el servicio de Pagos emite un evento para descontar definitivamente el stock del Inventario.
 * **Pedidos → Notificaciones (Asíncrona - Message Broker):** Pedidos emite un evento de "Orden Creada" a la cola de mensajes para que Notificaciones prepare y envíe la confirmación por correo al cliente sin ralentizar la compra.
+
+
+```mermaid
+graph TD
+    Cliente -->|1. Autenticación / Registro| Auth[Servicio de Usuarios]
+    Cliente -->|2. Crear Pedido| Orders[Servicio de Pedidos]
+    Orders -->|3. Validar / Reservar Stock| Catalog[Servicio de Inventario]
+    Orders -->|4. Procesar Cobro| Payments[Servicio de Pagos]
+    Payments -->|5. Confirma Pago Exitoso| Orders
+    Payments -->|6. Evento: Descontar Stock| Catalog
+    Orders -->|7. Evento: Notificar Cliente| Notifications[Servicio de Notificaciones]
