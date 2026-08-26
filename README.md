@@ -11,3 +11,9 @@ Permite la compra y venta de productos en línea de manera ininterrumpida, gesti
 * **Servicio de Pedidos:** Procesa la creación de carritos y la orden de compra.
 * **Servicio de Pagos:** Procesa las transacciones de tarjeta/transferencia mediante pasarelas externas.
 * **Servicio de Notificaciones:** Envía correos y alertas de confirmación de compra y envío.
+
+## Comunicación entre servicios
+* **Pedidos → Inventario:** El servicio de Pedidos solicita la reserva de stock al servicio de Inventario.
+* **Pedidos → Pagos:** El servicio de Pedidos solicita procesar la transacción financiera.
+* **Pagos → Pedidos:** Pagos confirma si la transacción fue exitosa para cambiar el estado de la orden.
+* **Pedidos → Notificaciones:** Pedidos emite un evento para enviar la confirmación por correo al cliente.
