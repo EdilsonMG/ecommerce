@@ -13,10 +13,10 @@ facilita agregar nuevos comercios sin afectar el resto del sistema.
   miles de comercios y compradores).
 - ¿Necesita escalar? Sí, especialmente pedidos y pagos en temporadas altas.
 - ¿Es un sistema pequeño o grande? Mediano, con proyección a grande.
-  
-- **Base de datos:** cada servicio tiene su propia base de datos, para evitar acoplamiento. 
+- **Base de datos:** cada servicio tiene su propia base de datos 
 
-##  Problema que resuelve
+
+## Problema que resuelve
 
 Muchos negocios pequeños (tiendas de barrio, papelerías, boutiques) no tienen 
 presencia digital ni forma de vender en línea. Los que lo intentan usan hojas 
@@ -35,7 +35,7 @@ gestionar inventario de forma centralizada y automatizada.
   experiencia de compra.
 
 
-##  Usuarios del sistema
+## Usuarios del sistema
 
 | Rol | Puede hacer |
 |---|---|
