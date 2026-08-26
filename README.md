@@ -18,6 +18,25 @@ Permite la compra y venta de productos en línea de manera ininterrumpida, gesti
 * **Pagos → Pedidos:** Pagos confirma si la transacción fue exitosa para cambiar el estado de la orden.
 * **Pedidos → Notificaciones:** Pedidos emite un evento para enviar la confirmación por correo al cliente.
 
+## Tipo de arquitectura
+**Microservicios orientada a eventos (Híbrida)**
+* **Justificación:** Elegimos esta arquitectura porque los picos de tráfico en e-commerce afectan principalmente al catálogo y pagos, por lo que cada servicio debe escalar de forma independiente sin detener la totalidad de la tienda.
+
+## Base de datos
+* **Enfoque:** Database per Service (Cada microservicio maneja su propia base de datos).
+* **Datos críticos:** Transacciones de pago, historial de pedidos y stock.
+* **Riesgo por pérdida:** Pérdida de dinero, duplicidad de pedidos y reclamos legales de clientes.
+
+## Usuarios del sistema
+* **Cliente:** Puede navegar, agregar al carrito, pagar y rastrear su pedido.
+* **Administrador:** Modifica catálogo, ajusta precios y analiza reportes.
+* **Operador de Logística:** Actualiza estados de envío de las compras.
+
+## Riesgos y fallas posibles
+* **Falla en Pasarela de Pagos:** Implementación de reintentos automáticos (exponential backoff) y guardado de estado transitorio.
+* **Caída de la Base de Datos:** Réplicas de lectura e historial de transacciones en cola de mensajes para procesamiento diferido.
+* **Saturación del Servidor:** Balanceadores de carga y escalado horizontal de contenedores.
+
 ```mermaid
 graph TD
     Cliente -->|1. Pide Producto| Pedidos
