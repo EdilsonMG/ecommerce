@@ -49,15 +49,23 @@ Cada base de datos tiene su propia base de datos personal, asi cuando haya un pr
 
 ## Que pasaría si falla
 
-# Sistema de pagos
+## Sistema de pagos
 El pedido queda en estado pendiente en vez de perderse
 
-# Base de datos
+## Base de datos
 se activa una réplica de respaldo para no dejar el sistema totalmente caido
 
-# Servidor principal
+## Servidor principal
 La petición se redirige a otra instancia disponible evitando que el sistema quede sin acceso
 
 ## Soluciones
 - Reintentos automáticos con limite entre servicios que fallan
 - Notificaciones al usuario y al equipo tecnico cuando falla una operacion critica
+
+# Revisión tecnica
+
+## Por que microservicios como arquitectura 
+Porque cada parte del ecommerce puede crecer y fallar de forma independiente y los microservicios permiten escalar solo lo que realmente necesita
+
+## Por qué cada servicio tiene su propia base de datos
+Para que un problema en una base no afecte a las demás y cada servicio pueda evolucionar sin dependerde los otros.
