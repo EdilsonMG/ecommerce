@@ -28,3 +28,18 @@
 ## Justificación
 - Elegimos microservicios porque permiten escalar cada servicio si uno falla, el resto del
 sistema sigue funcionando y que el equipo trabaja en paralelo sin bloquearse.
+
+## Que información debe guardarse
+Absolutamente toda la información de los microservicios debe guardarse
+- Datos de usuarios
+- Catalogo de productos
+- Pedidos
+- Pagos
+- Notificaciones
+
+## Que datos son críticos
+- Pedidos y Pagos ya que requieren dinero, transacciones en tiempo real
+- Catalogo de productos para no vender productos sin stock
+  
+## Que pasaría si se pierden
+Se podrían generar pedidos duplicados, además que se las transacciones deben estar siempre registradas porque pueden hacer que el comercio pierda confiabilidad
