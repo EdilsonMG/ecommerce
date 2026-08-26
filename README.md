@@ -33,9 +33,14 @@ Permite la compra y venta de productos en línea de manera ininterrumpida, gesti
 * **Operador de Logística:** Actualiza estados de envío de las compras.
 
 ## Riesgos y fallas posibles
-* **Falla en Pasarela de Pagos:** Implementación de reintentos automáticos (exponential backoff) y guardado de estado transitorio.
+* **Falla en Pasarela de Pagos:** Implementación de reintentos automáticos y guardado de estado transitorio.
 * **Caída de la Base de Datos:** Réplicas de lectura e historial de transacciones en cola de mensajes para procesamiento diferido.
 * **Saturación del Servidor:** Balanceadores de carga y escalado horizontal de contenedores.
+
+## Base de datos
+* **Enfoque:** Database per Service, cada microservicio maneja su propia base de datos.
+* **Datos críticos:** Transacciones de pago, historial de pedidos y stock.
+* **Riesgo por pérdida:** Pérdida de dinero, duplicidad de pedidos y reclamos legales de clientes.
 
 ```mermaid
 graph TD
