@@ -46,3 +46,18 @@ Se podrían generar pedidos duplicados, además que se las transacciones deben e
 
 ## Todos los servicios usan la misma base de datos o cada uno tiene la suya
 Cada base de datos tiene su propia base de datos personal, asi cuando haya un problema en alguna base de datos de algun microservicio no afecte a ninguna otra base de datos.
+
+## Que pasaría si falla
+
+- Sistema de pagos
+El pedido queda en estado pendiente en vez de perderse
+
+- Base de datos
+se activa una réplica de respaldo para no dejar el sistema totalmente caido
+
+- Servidor principal
+La petición se redirige a otra instancia disponible evitando que el sistema quede sin acceso
+
+## Soluciones
+- Reintentos automáticos con limite entre servicios que fallan
+- Notificaciones al usuario y al equipo tecnico cuando falla una operacion critica
