@@ -22,11 +22,6 @@ Permite la compra y venta de productos en línea de manera ininterrumpida, gesti
 **Microservicios orientada a eventos (Híbrida)**
 * **Justificación:** Elegimos esta arquitectura porque los picos de tráfico en e-commerce afectan principalmente al catálogo y pagos, por lo que cada servicio debe escalar de forma independiente sin detener la totalidad de la tienda.
 
-## Base de datos
-* **Enfoque:** Database per Service (Cada microservicio maneja su propia base de datos).
-* **Datos críticos:** Transacciones de pago, historial de pedidos y stock.
-* **Riesgo por pérdida:** Pérdida de dinero, duplicidad de pedidos y reclamos legales de clientes.
-
 ## Usuarios del sistema
 * **Cliente:** Puede navegar, agregar al carrito, pagar y rastrear su pedido.
 * **Administrador:** Modifica catálogo, ajusta precios y analiza reportes.
