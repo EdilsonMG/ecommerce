@@ -43,3 +43,6 @@ Absolutamente toda la información de los microservicios debe guardarse
   
 ## Que pasaría si se pierden
 Se podrían generar pedidos duplicados, además que se las transacciones deben estar siempre registradas porque pueden hacer que el comercio pierda confiabilidad
+
+## Todos los servicios usan la misma base de datos o cada uno tiene la suya
+Cada base de datos tiene su propia base de datos personal, asi cuando haya un problema en alguna base de datos de algun microservicio no afecte a ninguna otra base de datos.
