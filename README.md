@@ -1,4 +1,4 @@
-# encargado tecnico: Ecommerce
+# Encargado tecnico: Ecommerce
 
 ## Que servicio necesita información de otro
 - el servicio de pedidos necesita del servicio de catalogo para verificar el stock disponible
@@ -12,3 +12,15 @@
 ## Quien responde
 - el servicio de inventario responde con la cantidad disponible de cada producto
 - el servicio de pagos responde con la confirmación o cancelación del pago
+
+## Tipo de Arquitectura
+- Arquitectura basada en microservicios
+
+## Cuantos usuarios tendrá el sistema
+- Al comienzo se iniciara con pocos comercios pero se espera un crecimiento porcentual
+  
+## Necesita escalar
+- Cada comercio espera agregar productos y gestionar pedidos con el fin de crezca y no se caiga en el intento
+  
+## Es un sistema pequeño o grande
+- Es un sistema pequeño-intermedio pensado en que crezca con el tiempo
