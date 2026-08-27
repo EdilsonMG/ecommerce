@@ -80,3 +80,4 @@ graph TD
     Payments -->|5. Confirma Pago Exitoso| Orders
     Payments -->|6. Evento: Descontar Stock| Catalog
     Orders -->|7. Evento: Notificar Cliente| Notifications[Servicio de Notificaciones]
+
