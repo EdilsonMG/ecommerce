@@ -66,12 +66,30 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 * **Pedidos → Productos (Síncrona - REST/gRPC):** El servicio de Pedidos solicita al Inventario verificar y reservar el stock del producto seleccionado antes de iniciar el cobro.
 .
 
-
-
+    
 ## Docker Compose
 El comando docker images sirve para ver la consulta de la base de datos de nuestro sistema para mostrar un listado completo de todas las imágenes de Docker guardadas localmente, permitiéndote comprobar que la nueva imagen se creó correctamente junto a detalles como su ID, tamaño y fecha de creación.
 
 El comando docker compose up -d home lee la configuración de tu archivo compose.yml para compilar y poner en marcha únicamente el servicio especificado llamado home, ejecutándolo de forma aislada y en segundo plano sin activar los demás servicios listados en el archivo.
 
 El comando docker ps genera un reporte en tiempo real de todos los contenedores que permanecen activos en tu equipo, mostrando su ID, nombre, estado actual y los puertos mapeados para que verifiques que el proceso se inició de forma exitosa.
+services:
+
+  home:
+    image: home:4.0
+    ports:
+      - "3000:80"
+    container_name: home
+
+  usuarios:
+    image: alpine
+    container_name: usuarios
+
+  productos:
+    image: alpine
+    container_name: productos
+
+  pedidos:
+    image: alpine
+    container_name: pedidos
 
