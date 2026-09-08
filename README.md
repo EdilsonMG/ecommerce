@@ -93,3 +93,13 @@ services:
     image: alpine
     container_name: pedidos
 
+
+## DockerFile
+La instrucción FROM nginx:alpine le indica a Docker la base sobre la cual construirás tu contenedor, utilizando una versión ligera del sistema operativo Linux que ya trae el servidor web Nginx instalado de fábrica.
+
+La instrucción COPY index.html /usr/share/nginx/html/index.html toma el archivo index.html que está en tu computadora y lo copia directamente a la ruta interna del contenedor donde Nginx guarda las páginas que va a mostrar.
+
+La instrucción EXPOSE 80 informa que el contenedor estará escuchando conexiones a través del puerto 80, que es el puerto estándar que utilizan las aplicaciones web para transmitir tráfico HTTP.
+
+La instrucción CMD [ "nginx", "-g", "daemon off;" ] ejecuta el servidor Nginx al momento de arrancar el contenedor y lo fuerza a quedarse corriendo en primer plano para evitar que el contenedor se apague solo.
+
