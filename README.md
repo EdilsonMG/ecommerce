@@ -87,18 +87,16 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
     image: alpine
     container_name: pedidos
 
-El comando docker build -t home:4.0 . le ordena a Docker construir una nueva imagen del contenedor procesando las instrucciones de tu archivo Dockerfile. La opción -t le asigna directamente la etiqueta con el nombre home y la versión 4.0 para identificarla en el sistema, mientras que el punto final indica que la ruta de origen y los archivos requeridos están en el directorio donde te encuentras parado.
+El comando docker build -t home:4.0 . le ordena a Docker construir una nueva imagen del contenedor procesando las instrucciones de nuestro archivo Dockerfile. La opción -t le asigna directamente la etiqueta con el nombre home y la versión 4.0 para identificarla en el sistema, mientras que el punto final indica que la ruta de origen y los archivos requeridos están en el directorio donde te encuentras parado.
 
-El comando docker images sirve para ver la consulta de la base de datos de nuestro sistema para mostrar un listado completo de todas las imágenes de Docker guardadas localmente, permitiéndote comprobar que la nueva imagen se creó correctamente junto a detalles como su ID, tamaño y fecha de creación.
+El comando docker images sirve para ver la consulta de la base de datos de nuestro sistema para mostrar un listado completo de todas las imágenes de Docker guardadas localmente, permitiéndonos comprobar que la nueva imagen se creó correctamente junto a detalles como su ID, tamaño y fecha de creación.
 
-El comando docker compose up -d home lee la configuración de tu archivo compose.yml para compilar y poner en marcha únicamente el servicio especificado llamado home, ejecutándolo de forma aislada y en segundo plano sin activar los demás servicios listados en el archivo.
+El comando docker compose up -d home lee la configuración de nuestro archivo compose.yml para compilar y poner en marcha únicamente el servicio especificado llamado home, ejecutándolo de forma aislada y en segundo plano sin activar los demás servicios listados en el archivo.
 
-El comando docker ps genera un reporte en tiempo real de todos los contenedores que permanecen activos en tu equipo, mostrando su ID, nombre, estado actual y los puertos mapeados para que verifiques que el proceso se inició de forma exitosa.
-services:
+El comando docker ps genera un reporte en tiempo real de todos los contenedores que permanecen activos en nuestro equipo, mostrando su ID, nombre, estado actual y los puertos mapeados para que verifiques que el proceso se inició de forma exitosa.
+
 
  
-
-
 ## DockerFile
 
 FROM nginx:alpine
@@ -109,11 +107,11 @@ EXPOSE 80
 
 CMD [ "nginx", "-g", "daemon off;" ]
 
-La instrucción FROM nginx:alpine le indica a Docker la base sobre la cual construirás tu contenedor, utilizando una versión ligera del sistema operativo Linux que ya trae el servidor web Nginx instalado de fábrica.
+La instrucción FROM nginx:alpine le indica a Docker la base sobre la cual construiremos nuestro contenedor, utilizando una versión ligera del sistema operativo Linux que ya trae el servidor web Nginx instalado de fábrica.
 
-La instrucción COPY index.html /usr/share/nginx/html/index.html toma el archivo index.html que está en tu computadora y lo copia directamente a la ruta interna del contenedor donde Nginx guarda las páginas que va a mostrar.
+La instrucción COPY index.html /usr/share/nginx/html/index.html toma el archivo index.html que está en nuestra computadora y lo copia directamente a la ruta interna del contenedor donde Nginx guarda las páginas que va a mostrar.
 
 La instrucción EXPOSE 80 informa que el contenedor estará escuchando conexiones a través del puerto 80, que es el puerto estándar que utilizan las aplicaciones web para transmitir tráfico HTTP.
 
-La instrucción CMD [ "nginx", "-g", "daemon off;" ] ejecuta el servidor Nginx al momento de arrancar el contenedor y lo fuerza a quedarse corriendo en primer plano para evitar que el contenedor se apague solo.
+La instrucción CMD  ["nginx", "-g", "daemon off;"] ejecuta el servidor Nginx al momento de arrancar el contenedor y lo fuerza a quedarse corriendo en primer plano para evitar que el contenedor se apague solo.
 
