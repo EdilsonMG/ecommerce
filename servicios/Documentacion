@@ -1,1 +1,9 @@
 
+## Servicio de Usuarios 
+Este servicio se encarga del ciclo de vida completo de las cuentas dentro de la plataforma. Su responsabilidad principal radica en gestionar la autenticación, autorización y persistencia de la información personal de los usuarios (compradores y administradores). Es el componente encargado de validar identidades mediante credenciales o tokens de acceso, administrar los perfiles de usuario, direcciones de envío, métodos de pago guardados y la configuración de preferencias. Además, garantiza el cumplimiento de las políticas de seguridad y privacidad sobre los datos sensibles de los clientes.
+
+## Servicio de Productos 
+Este servicio administra el catálogo de bienes o servicios disponibles para la venta. Su responsabilidad fundamental es almacenar, organizar y proveer la información detallada de los artículos, tales como nombres, descripciones, categorías, precios, imágenes, especificaciones técnicas y disponibilidad de inventario en tiempo real. Actúa como la fuente centralizada de datos para las búsquedas y filtrados que realizan los usuarios en la interfaz, permitiendo a los administradores actualizar existencias, ajustar precios y dar de alta o baja nuevos productos en el sistema.
+
+## Servicio de Pedidos 
+Este servicio coordina y procesa todo el flujo transaccional cuando un cliente decide realizar una compra. Su responsabilidad clave es consolidar la solicitud recibida, validando la selección del carrito, congelando el stock necesario y calculando los costos finales (impuestos y envío). Actúa como el orquestador principal del proceso de compra, cambiando el estado del pedido a lo largo de su ciclo (creado, pagado, procesando, enviado, entregado o cancelado) y comunicándose con otros módulos o servicios externos para asegurar la correcta facturación, pago y preparación del envío.
