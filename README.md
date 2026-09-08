@@ -103,3 +103,8 @@ La instrucción EXPOSE 80 informa que el contenedor estará escuchando conexione
 
 La instrucción CMD [ "nginx", "-g", "daemon off;" ] ejecuta el servidor Nginx al momento de arrancar el contenedor y lo fuerza a quedarse corriendo en primer plano para evitar que el contenedor se apague solo.
 
+FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+CMD [ "nginx", "-g", "daemon off;" ]
+
