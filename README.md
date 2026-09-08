@@ -68,6 +68,9 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 
     
 ## Docker Compose
+
+El comando docker build -t home:4.0 . le ordena a Docker construir una nueva imagen del contenedor procesando las instrucciones de tu archivo Dockerfile. La opción -t le asigna directamente la etiqueta con el nombre home y la versión 4.0 para identificarla en el sistema, mientras que el punto final indica que la ruta de origen y los archivos requeridos están en el directorio donde te encuentras parado.
+
 El comando docker images sirve para ver la consulta de la base de datos de nuestro sistema para mostrar un listado completo de todas las imágenes de Docker guardadas localmente, permitiéndote comprobar que la nueva imagen se creó correctamente junto a detalles como su ID, tamaño y fecha de creación.
 
 El comando docker compose up -d home lee la configuración de tu archivo compose.yml para compilar y poner en marcha únicamente el servicio especificado llamado home, ejecutándolo de forma aislada y en segundo plano sin activar los demás servicios listados en el archivo.
