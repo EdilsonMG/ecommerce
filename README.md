@@ -115,3 +115,15 @@ La instrucción EXPOSE 80 informa que el contenedor estará escuchando conexione
 
 La instrucción CMD  ["nginx", "-g", "daemon off;"] ejecuta el servidor Nginx al momento de arrancar el contenedor y lo fuerza a quedarse corriendo en primer plano para evitar que el contenedor se apague solo.
 
+## Diseñado
+Se definió la arquitectura del sistema distribuido basada en microservicios, identificando los dominios principales de la plataforma: Usuarios, Productos y Pedidos. Asimismo, se planificó la estructura de directorios del proyecto en Git y el esquema de empaquetamiento independiente para el servicio principal mediante contenedores Docker.
+
+## Configurado
+Se estableció el archivo de orquestación compose.yml para gestionar la ejecución conjunta de los servicios del sistema, mapeando los puertos de red y asignando los nombres fijos a cada contenedor. Se configuraron también las imágenes base livianas para los servicios auxiliares y la base del servidor Nginx para la entrega de contenido estático.
+
+## Implementado
+Se construyó e integró el servicio inicial home dentro del contenedor mediante su respectivo Dockerfile, el cual expone el puerto 80 y sirve la interfaz web de inicio. Se probó la compilación de la imagen home:4.0 y su correcto despliegue local mediante comandos de Docker y Docker Compose.
+
+## Pendiente
+Queda por desarrollar la lógica de negocio y las bases de datos de los servicios de Usuarios, Productos y Pedidos para reemplazar las imágenes genéricas temporales.
+
