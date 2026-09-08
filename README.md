@@ -68,13 +68,10 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 
 
 
-```mermaid
-graph TD
-    Cliente -->|1. Autenticación / Registro| Auth[Servicio de Usuarios]
-    Cliente -->|2. Crear Pedido| Orders[Servicio de Pedidos]
-    Orders -->|3. Validar / Reservar Stock| Catalog[Servicio de Inventario]
-    Orders -->|4. Procesar Cobro| Payments[Servicio de Pagos]
-    Payments -->|5. Confirma Pago Exitoso| Orders
-    Payments -->|6. Evento: Descontar Stock| Catalog
-    Orders -->|7. Evento: Notificar Cliente| Notifications[Servicio de Notificaciones]
+## Docker Compose
+El comando docker images sirve para ver la consulta de la base de datos de nuestro sistema para mostrar un listado completo de todas las imágenes de Docker guardadas localmente, permitiéndote comprobar que la nueva imagen se creó correctamente junto a detalles como su ID, tamaño y fecha de creación.
+
+El comando docker compose up -d home lee la configuración de tu archivo compose.yml para compilar y poner en marcha únicamente el servicio especificado llamado home, ejecutándolo de forma aislada y en segundo plano sin activar los demás servicios listados en el archivo.
+
+El comando docker ps genera un reporte en tiempo real de todos los contenedores que permanecen activos en tu equipo, mostrando su ID, nombre, estado actual y los puertos mapeados para que verifiques que el proceso se inició de forma exitosa.
 
