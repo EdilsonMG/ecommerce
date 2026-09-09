@@ -1,0 +1,19 @@
+services:
+
+  home:
+    image: home:4.0
+    ports:
+      - "3000:80"
+    container_name: home
+
+  usuarios:
+    image: alpine
+    container_name: usuarios
+
+  productos:
+    image: alpine
+    container_name: productos
+
+  pedidos:
+    image: alpine
+    container_name: pedidos
