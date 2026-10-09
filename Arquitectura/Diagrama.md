@@ -1,9 +1,14 @@
 ```mermaid
 graph TD
-    User["USUARIO (Navegador)"] --> Home["HOME (Docker) - image: home:4.0"]
-    Home --> Usuarios["USUARIOS - image: alpine"]
-    Home --> Productos["PRODUCTOS - image: alpine"]
-    Home --> Pedidos["PEDIDOS - image: alpine"]
+    U[USUARIO / Navegador] --> H[HOME - Docker<br>image: home:4.0]
+    
+    H --> S_USR[USUARIOS<br>image: nodejs]
+    H --> S_PROD[PRODUCTOS<br>image: nodejs]
+    H --> S_PED[PEDIDOS<br>image: nodejs]
+
+    S_USR --- DB_USR[(mysql_usuarios<br>image: mysql:8.0<br>DB: usuarios_db<br>Tabla: usuarios)]
+    S_PROD --- DB_PROD[(mysql_productos<br>image: mysql:8.0<br>DB: productos_db<br>Tabla: productos)]
+    S_PED --- DB_PED[(mysql_pedidos<br>image: mysql:8.0<br>DB: pedidos_db<br>Tabla: pedidos)]
 ```
 
 ### ¿Cómo funciona nuestra arquitectura?
