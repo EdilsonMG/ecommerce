@@ -20,11 +20,15 @@ services:
     ports:
       - "5002:5000"  
     env_file:
-    - .env  
+    - .env
 
   pedidos:
-    image: alpine
+    build: ./pedidos
     container_name: pedidos
+    ports:
+      - "5003:5000"  
+    env_file:
+    - .env     
 
   mysqlpedidos:
     image: mysql:8.0
