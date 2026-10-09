@@ -109,7 +109,7 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | **PUT** | `/usuarios/{id}` | Actualización completa de un usuario | ID en URL + JSON con todos los campos | Mensaje de actualización exitosa o error |
 | **PATCH** | `/usuarios/{id}` | Actualización parcial de un usuario | ID en URL + JSON con los campos a modificar | Mensaje de actualización exitosa o error |
 
-###Base de datos por servicio
+### Base de datos por servicio
 | Servicio | Base de datos utilizada | Tablas principales |
 | :--- | :--- | :--- |
 | **Usuarios** | `mysqlproductos` - `mysql:8.0` | `usuarios` (`id`, `nombre`, `email`) |
