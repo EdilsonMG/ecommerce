@@ -98,7 +98,17 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | **DELETE** | `/pedidos/{id}` | Eliminar un pedido | ID del pedido en la URL | Confirmación de eliminación o mensaje de error |
 | **PUT** | `/pedidos/{id}` | Actualización completa de un pedido | ID en URL + JSON con todos los campos | Mensaje de actualización exitosa o error |
 | **PATCH** | `/pedidos/{id}` | Actualización parcial de un pedido | ID en URL + JSON con los campos a modificar | Mensaje de actualización exitosa o error |
-    
+
+### Servicio Usuarios
+| Método | Endpoint | Descripción | Entrada | Respuesta |
+| :--- | :--- | :--- | :--- | :--- |
+| **GET** | `/usuarios` | Consultar todos los usuarios | Ninguna | Lista de usuarios |
+| **GET** | `/usuarios/{id}` | Consultar usuario por ID | ID del usuario en la URL | Datos del usuario o mensaje de no encontrado |
+| **POST** | `/usuarios` | Crear un nuevo usuario | JSON con datos del usuario (`nombre`, `email`) | Confirmación y nuevo ID generado |
+| **DELETE** | `/usuarios/{id}` | Eliminar un usuario | ID del usuario en la URL | Confirmación de eliminación o mensaje de error |
+| **PUT** | `/usuarios/{id}` | Actualización completa de un usuario | ID en URL + JSON con todos los campos | Mensaje de actualización exitosa o error |
+| **PATCH** | `/usuarios/{id}` | Actualización parcial de un usuario | ID en URL + JSON con los campos a modificar | Mensaje de actualización exitosa o error |
+
 ## Docker Compose
 docker compose up --build
 
