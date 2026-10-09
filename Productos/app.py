@@ -61,7 +61,7 @@ def eliminar(id):
     cursor = conexion.cursor()
     
     sql = """
-        DELETE FROM mascotas
+        DELETE FROM productos
         WHERE id = %s
     """
     

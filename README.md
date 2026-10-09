@@ -55,9 +55,10 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 
 ## Servicios del sistema
 
-* **Servicio de Usuarios:** Encargado de gestionar el registro, inicio de sesión, perfiles de clientes, direcciones de envío y la emisión/validación de tokens JWT para controlar accesos seguros a la plataforma.
-* **Servicio de productos :** Administra las categorías, detalles de productos, imágenes y precios, manteniendo la actualización del stock disponible en tiempo real para evitar la sobreventa (*overselling*).
-* **Servicio de Pedidos :** Procesa la creación de carritos de compra, la consolidación de la orden, la asignación de números de seguimiento y el cambio de estado del pedido (Pendiente, Pagado, Enviado).
+Servicio	Responsabilidad	Datos administrados
+Usuarios	Gestionar clientes	Nombre, correo, información del usuario
+Productos	Gestionar productos disponibles	Nombre, precio, categoría
+Pedidos	Gestionar órdenes realizadas	Usuario, productos, estado
 
 
 ## Comunicación entre servicios
