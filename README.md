@@ -116,6 +116,25 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | **Productos** | `mysqlproductos` - `mysql:8.0` | `productos` (`id`, `nombre`, `categoria`, `precio`, `stock`) |
 | **Pedidos** | `mysqlpedidos` - `mysql:8.0` | `pedidos` (`id`, `idUsuario`, `idProducto`, `cantidad`, `estado`, `valortotal`, `fechaPedido`) |
 
+### Configuración mediante variables de entorno
+| Variable | Uso |
+| :--- | :--- |
+| `USUARIOS_DB_HOST` | Host o nombre del contenedor del servidor MySQL para el servicio de Usuarios (`mysql_usuarios`) |
+| `USUARIOS_DB_PORT` | Puerto de conexión a la base de datos de Usuarios (`3306`) |
+| `USUARIOS_DB_USER` | Usuario para autenticarse en la base de datos de Usuarios (`root`) |
+| `USUARIOS_DB_PASSWORD` | Contraseña de acceso a la base de datos de Usuarios (`root`) |
+| `USUARIOS_DB_NAME` | Nombre de la base de datos del servicio de Usuarios (`usuarios_db`) |
+| `PRODUCTOS_DB_HOST` | Host o nombre del contenedor del servidor MySQL para el servicio de Productos (`mysql_productos`) |
+| `PRODUCTOS_DB_PORT` | Puerto de conexión a la base de datos de Productos (`3306`) |
+| `PRODUCTOS_DB_USER` | Usuario para autenticarse en la base de datos de Productos (`root`) |
+| `PRODUCTOS_DB_PASSWORD` | Contraseña de acceso a la base de datos de Productos (`root`) |
+| `PRODUCTOS_DB_NAME` | Nombre de la base de datos del servicio de Productos (`productos_db`) |
+| `PEDIDOS_DB_HOST` | Host o nombre del contenedor del servidor MySQL para el servicio de Pedidos (`mysql_pedidos`) |
+| `PEDIDOS_DB_PORT` | Puerto de conexión a la base de datos de Pedidos (`3306`) |
+| `PEDIDOS_DB_USER` | Usuario para autenticarse en la base de datos de Pedidos (`root`) |
+| `PEDIDOS_DB_PASSWORD` | Contraseña de acceso a la base de datos de Pedidos (`root`) |
+| `PEDIDOS_DB_NAME` | Nombre de la base de datos del servicio de Pedidos (`pedidos_db`) |
+
 ## Docker Compose
 docker compose up --build
 
