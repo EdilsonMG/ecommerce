@@ -25,3 +25,16 @@ services:
   pedidos:
     image: alpine
     container_name: pedidos
+
+  mysqlpedidos:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pedidos
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqlpedidos:/var/lib/mysql
+
+volumes:
+  mysqlpedidos:

@@ -61,6 +61,14 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | Productos | Gestionar productos disponibles | Nombre, precio, categoría, stock |
 | Pedidos | Gestionar órdenes realizadas | IdUsuario, IdProducto, estado, cantidad, valortotal, fechaPedido |
 
+## Diseño de responsabilidades
+
+| Servicio | Responsabilidad | Datos administrados | Comunicación con otros servicios |
+| :--- | :--- | :--- | :--- |
+| **Usuarios** | Gestionar clientes | Nombre, correo | **Suele ser independiente.** Responde a las consultas de validación de identidad e información del cliente solicitadas por **Pedidos**. |
+| **Productos** | Gestionar productos disponibles | Nombre, precio, categoría, stock | **Recibe consultas de Pedidos** para verificar la disponibilidad de stock y confirmar el precio unitario actualizado. |
+| **Pedidos** | Gestionar órdenes realizadas | IdUsuario, IdProducto, estado, cantidad, valortotal, fechaPedido | **Consulta a Usuarios** (para validar el cliente) y a **Productos** (para verificar existencia de stock y calcular el valor total). |
+
 
 ## Comunicación entre servicios
 
@@ -79,6 +87,17 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | **POST** | `/productos` | Crear producto | JSON del Producto | Confirmación de creación |
 | **PUT** | `/productos/{id}` | Actualizar producto | JSON actualizado | Producto modificado |
 | **DELETE** | `/productos/{id}` | Eliminar producto | ID producto | Confirmación de eliminación exitosa |
+
+### Servicio Pedidos
+
+| Método | Endpoint | Descripción | Entrada | Respuesta |
+| :--- | :--- | :--- | :--- | :--- |
+| **GET** | `/pedidos` | Consultar todos los pedidos | Ninguna | Lista de pedidos |
+| **GET** | `/pedidos/{id}` | Consultar pedido por ID | ID del pedido en la URL | Datos del pedido o mensaje de no encontrado |
+| **POST** | `/pedidos` | Crear un nuevo pedido | JSON con datos del pedido | Confirmación y nuevo ID generado |
+| **DELETE** | `/pedidos/{id}` | Eliminar un pedido | ID del pedido en la URL | Confirmación de eliminación o mensaje de error |
+| **PUT** | `/pedidos/{id}` | Actualización completa de un pedido | ID en URL + JSON con todos los campos | Mensaje de actualización exitosa o error |
+| **PATCH** | `/pedidos/{id}` | Actualización parcial de un pedido | ID en URL + JSON con los campos a modificar | Mensaje de actualización exitosa o error |
     
 ## Docker Compose
 
