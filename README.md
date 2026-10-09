@@ -190,7 +190,13 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 * **Pedidos → Productos (Síncrona - REST/gRPC):** El servicio de Pedidos solicita al Inventario verificar y reservar el stock del producto seleccionado antes de iniciar el cobro.
 .
 
-    
+## Diseño de responsabilidades
+| Servicio | Responsabilidad | Datos administrados | Comunicación con otros servicios |
+| :--- | :--- | :--- | :--- |
+| **Usuarios** | Gestionar clientes | Nombre, correo | **Suele ser independiente.** Responde a las consultas de validación de identidad e información del cliente solicitadas por **Pedidos**. |
+| **Productos** | Gestionar productos disponibles | Nombre, precio, categoría, stock | **Recibe consultas de Pedidos** para verificar la disponibilidad de stock y confirmar el precio unitario actualizado. |
+| **Pedidos** | Gestionar órdenes realizadas | IdUsuario, IdProducto, estado, cantidad, valortotal, fechaPedido | **Consulta a Usuarios** (para validar el cliente) y a **Productos** (para verificar existencia de stock y calcular el valor total). |
+
 ## Docker Compose
 
  home:
