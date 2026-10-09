@@ -13,7 +13,9 @@ services:
     ports:
       - "5001:5000"  
     env_file:
-    - .env  
+      - .env
+    depends_on:
+      - mysqlusuarios
 
   productos:
     build: ./productos
@@ -21,7 +23,9 @@ services:
     ports:
       - "5002:5000"  
     env_file:
-    - .env
+      - .env
+    depends_on:
+      - mysqlproductos
 
   pedidos:
     build: ./pedidos
@@ -29,10 +33,13 @@ services:
     ports:
       - "5003:5000"  
     env_file:
-    - .env     
+      - .env
+    depends_on:
+      - mysqlpedidos
 
   mysqlpedidos:
     image: mysql:8.0
+    container_name: mysqlpedidos
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: pedidos_db
@@ -40,9 +47,11 @@ services:
       - "3306:3306"
     volumes:
       - pedidos_data:/var/lib/mysql
+      - ./pedidos/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   mysqlproductos:
     image: mysql:8.0
+    container_name: mysqlproductos
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: productos_db
@@ -50,16 +59,19 @@ services:
       - "3307:3306"
     volumes:
       - productos_data:/var/lib/mysql
+      - ./productos/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   mysqlusuarios:
     image: mysql:8.0
+    container_name: mysqlusuarios
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: usuarios_db
     ports:
       - "3308:3306"
     volumes:
-      - usuarios_data:/var/lib/mysql        
+      - usuarios_data:/var/lib/mysql
+      - ./usuarios/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   pedidos_data:
