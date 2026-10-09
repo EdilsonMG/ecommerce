@@ -41,12 +41,12 @@ def crear():
     nuevoProducto = request.json
     conexion = conectar()
     cursor = conexion.cursor(dictionary=True)
-    sql=""""
+    sql="""
         INSERT INTO productos
         (nombre, categoria, precio, stock)
         VALUES (%s, %s, %s, %s)
     """
-    valores = (nuevoProducto["nombre"], nuevoProducto["categoria"], nuevoProducto["precio", nuevoProducto["stock"]])
+    valores = (nuevoProducto["nombre"], nuevoProducto["categoria"], nuevoProducto["precio"], nuevoProducto["stock"])
     cursor.execute(sql, valores)
     conexion.commit()
     nuevo_id = cursor.lastrowid
@@ -140,7 +140,7 @@ def actualizar_parcial(id):
 
     valores.append(id)
     
-    sql = f"UPDATE mascotas SET {', '.join(campos)} WHERE id = %s"
+    sql = f"UPDATE productos SET {', '.join(campos)} WHERE id = %s"
 
     conexion = conectar()
     cursor = conexion.cursor()
