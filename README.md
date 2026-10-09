@@ -100,8 +100,8 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | **PATCH** | `/pedidos/{id}` | Actualización parcial de un pedido | ID en URL + JSON con los campos a modificar | Mensaje de actualización exitosa o error |
     
 ## Docker Compose
+docker compose up --build
 
- encargado-presentacion
 ## Arquitectura del sistema
 
 *Microservicios*
