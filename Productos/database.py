@@ -6,11 +6,11 @@ def conectar():
     for intento in range(10):
         try:
             conexion = mysql.connector.connect(
-                host = os.getenv("DB_HOST"),
-                port = int(os.getenv("DB_PORT", 3306)),
-                user = os.getenv("DB_USER"),
-                password = os.getenv("DB_PASSWORD"),
-                database = os.getenv("DB_NAME")
+                host = os.getenv("PRODUCTOS_DB_HOST"),
+                port = int(os.getenv("PRODUCTOS_DB_PORT", 3306)),
+                user = os.getenv("PRODUCTOS_DB_USER"),
+                password = os.getenv("PRODUCTOS_DB_PASSWORD"),
+                database = os.getenv("PRODUCTOS_DB_NAME")
             )
             return conexion
         except mysql.connector.Error:

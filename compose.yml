@@ -1,6 +1,7 @@
 services:
 
   home:
+    build: ./home
     image: home:4.0
     ports:
       - "3000:80"
@@ -20,21 +21,47 @@ services:
     ports:
       - "5002:5000"  
     env_file:
-    - .env  
+    - .env
 
   pedidos:
-    image: alpine
+    build: ./pedidos
     container_name: pedidos
+    ports:
+      - "5003:5000"  
+    env_file:
+    - .env     
 
   mysqlpedidos:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: pedidos
+      MYSQL_DATABASE: pedidos_db
     ports:
       - "3306:3306"
     volumes:
-      - mysqlpedidos:/var/lib/mysql
+      - pedidos_data:/var/lib/mysql
+
+  mysqlproductos:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: productos_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - productos_data:/var/lib/mysql
+
+  mysqlusuarios:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: usuarios_db
+    ports:
+      - "3308:3306"
+    volumes:
+      - usuarios_data:/var/lib/mysql        
 
 volumes:
-  mysqlpedidos:
+  pedidos_data:
+  productos_data:
+  usuarios_data:
