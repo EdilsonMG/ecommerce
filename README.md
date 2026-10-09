@@ -112,6 +112,24 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 ## Docker Compose
 docker compose up --build
 
+### Comunicación entre servicios
+| Elemento | Descripción |
+| :--- | :--- |
+| **Servicio que solicita** | Pedidos |
+| **Servicio que responde** | Usuarios |
+| **Endpoint utilizado** | `GET /usuarios/{id}` |
+| **Información enviada** | ID del usuario en la URL (junto con el token/cabecera de sesión) |
+| **Información recibida** | Estado de la sesión activa y dirección de entrega del cliente |
+
+| Elemento | Descripción |
+| :--- | :--- |
+| **Servicio que solicita** | Pedidos |
+| **Servicio que responde** | Productos (Inventario) |
+| **Endpoint utilizado** | `POST /productos/{id}/reservar` |
+| **Información enviada** | ID del producto y cantidad requerida |
+| **Información recibida** | Confirmación de verificación y reserva de stock |
+
+
 ## Arquitectura del sistema
 
 *Microservicios*
