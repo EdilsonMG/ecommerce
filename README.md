@@ -55,10 +55,11 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 
 ## Servicios del sistema
 
-Servicio	Responsabilidad	Datos administrados
-Usuarios	Gestionar clientes	Nombre, correo, información del usuario
-Productos	Gestionar productos disponibles	Nombre, precio, categoría
-Pedidos	Gestionar órdenes realizadas	Usuario, productos, estado
+| Servicio | Responsabilidad | Datos administrados |
+| --- | --- | --- |
+| Usuarios | Gestionar clientes | Nombre, correo |
+| Productos | Gestionar productos disponibles | Nombre, precio, categoría, stock |
+| Pedidos | Gestionar órdenes realizadas | IdUsuario, IdProducto, estado, cantidad, valortotal, fechaPedido |
 
 
 ## Comunicación entre servicios
@@ -67,6 +68,17 @@ Pedidos	Gestionar órdenes realizadas	Usuario, productos, estado
 * **Pedidos → Productos (Síncrona - REST/gRPC):** El servicio de Pedidos solicita al Inventario verificar y reservar el stock del producto seleccionado antes de iniciar el cobro.
 .
 
+## ENDPOINTS
+
+### Servicio Productos
+
+| Método | Endpoint | Descripción | Entrada | Respuesta |
+| ----- | ----- | ----- | ----- | ----- |
+| **GET** | `/productos` | Consultar productos | Ninguna | Lista de productos |
+| **GET** | `/productos/{id}` | Consultar producto por id | ID producto | Producto específico |
+| **POST** | `/productos` | Crear producto | JSON del Producto | Confirmación de creación |
+| **PUT** | `/productos/{id}` | Actualizar producto | JSON actualizado | Producto modificado |
+| **DELETE** | `/productos/{id}` | Eliminar producto | ID producto | Confirmación de eliminación exitosa |
     
 ## Docker Compose
 
