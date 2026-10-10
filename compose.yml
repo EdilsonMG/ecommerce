@@ -44,7 +44,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: pedidos_db
     ports:
-      - "3306:3306"
+      - "3309:3306"
     volumes:
       - pedidos_data:/var/lib/mysql
       - ./pedidos/init.sql:/docker-entrypoint-initdb.d/init.sql
