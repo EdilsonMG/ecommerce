@@ -3,6 +3,7 @@ import requests, os
 from database import conectar
 
 url_usuarios = os.getenv("USUARIOS_URL")
+url_productos = os.getenv("PRODUCTOS_URL")
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def listar():
     return jsonify(pedidos)
 
 
-@app.route("/pedidos/<int:id>")
+@app.route("/pedidos/<int:id>/detalle")
 def buscar(id):
     conexion = conectar()
     cursor = conexion.cursor(dictionary=True)
@@ -27,9 +28,28 @@ def buscar(id):
     pedido = cursor.fetchone()
     cursor.close()
     conexion.close()
+
     if pedido is None:
         return jsonify({"mensaje": "Pedido no encontrado"}), 404
-    return jsonify(pedido)
+
+    try:
+        # Peticiones a los microservicios externos usando los campos de la BD
+        respuesta_usuario = requests.get(f"{url_usuarios}/usuarios/{pedido['idUsuario']}")
+        respuesta_producto = requests.get(f"{url_productos}/productos/{pedido['idProducto']}")
+
+        usuario = respuesta_usuario.json()
+        producto = respuesta_producto.json()
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": "Error al conectar con los microservicios externos", "detalle": str(e)}), 500
+
+    return jsonify({
+        "usuario": usuario.get("nombre"),
+        "producto": producto.get("nombre"),
+        "cantidad": pedido["cantidad"],
+        "estado": pedido["estado"],
+        "valortotal": pedido["valortotal"],
+        "fechaPedido": pedido["fechaPedido"]
+    })
 
 
 @app.route("/pedidos", methods=["POST"])
