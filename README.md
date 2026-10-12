@@ -120,8 +120,6 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 ### Configuración mediante variables de entorno
 | Variable | Uso |
 | :--- | :--- |
-| Variable | Uso |
-| :--- | :--- |
 | `USUARIOS_DB_HOST` | Host o nombre del contenedor del servidor MySQL para el servicio de Usuarios (`mysql_usuarios`) |
 | `USUARIOS_DB_PORT` | Puerto de conexión a la base de datos de Usuarios (`3306`) |
 | `USUARIOS_DB_USER` | Usuario para autenticarse en la base de datos de Usuarios (`root`) |
@@ -141,7 +139,7 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | `PRODUCTOS_URL` | URL de acceso al microservicio de Productos (`http://productos:5000`) |
 
 
-## Docker Compose
+## Como levantar el contenedor
 docker compose up --build
 
 ### Comunicación entre servicios
