@@ -32,15 +32,13 @@ def buscar(id):
     if pedido is None:
         return jsonify({"mensaje": "Pedido no encontrado"}), 404
 
-    try:
-        # Peticiones a los microservicios externos usando los campos de la BD
-        respuesta_usuario = requests.get(f"{url_usuarios}/usuarios/{pedido['idUsuario']}")
-        respuesta_producto = requests.get(f"{url_productos}/productos/{pedido['idProducto']}")
 
-        usuario = respuesta_usuario.json()
-        producto = respuesta_producto.json()
-    except requests.exceptions.RequestException as e:
-        return jsonify({"error": "Error al conectar con los microservicios externos", "detalle": str(e)}), 500
+    respuesta_usuario = requests.get(f"{url_usuarios}/usuarios/{pedido['idUsuario']}")
+    respuesta_producto = requests.get(f"{url_productos}/productos/{pedido['idProducto']}")
+
+    usuario = respuesta_usuario.json()
+    producto = respuesta_producto.json()
+    
 
     return jsonify({
         "usuario": usuario.get("nombre"),
