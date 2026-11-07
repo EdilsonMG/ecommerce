@@ -32,22 +32,32 @@ def buscar(id):
     if pedido is None:
         return jsonify({"mensaje": "Pedido no encontrado"}), 404
 
+    idUsuario = pedido["idUsuario"]
+    idProducto = pedido["idProducto"]
 
-    respuesta_usuario = requests.get(f"{url_usuarios}/usuarios/{pedido['idUsuario']}")
-    respuesta_producto = requests.get(f"{url_productos}/productos/{pedido['idProducto']}")
+    url_u= (
+        os.getenv("USUARIOS_URL") + "/usuarios/"+ str(idUsuario))
+    url_p= (
+            os.getenv("PRODUCTOS_URL") + "/productos/"+ str(idProducto))
 
-    usuario = respuesta_usuario.json()
-    producto = respuesta_producto.json()
-    
-
+    try:
+        usuario = requests.get(url_u)
+    except requests.exceptions.ConnectionError:
+        return jsonify({"mensaje": "Servicio de usuarios no esta disponible"}), 502
+    try:
+        producto = requests.get(url_p)
+    except requests.exceptions.ConnectionError:
+            return jsonify({"mensaje": "Servicio de productos no esta disponible"}), 502
+    datosusuario = usuario.json()
+    datospro = producto.json()
     return jsonify({
-        "usuario": usuario.get("nombre"),
-        "producto": producto.get("nombre"),
-        "cantidad": pedido["cantidad"],
-        "estado": pedido["estado"],
-        "valortotal": pedido["valortotal"],
-        "fechaPedido": pedido["fechaPedido"]
-    })
+            "usuario": datosusuario.get("nombre"),
+            "producto": datospro.get("nombre"),
+            "cantidad": pedido["cantidad"],
+            "estado": pedido["estado"],
+            "valortotal": pedido["valortotal"],
+            "fechaPedido": pedido["fechaPedido"]
+        }), 200
 
 
 @app.route("/pedidos", methods=["POST"])
