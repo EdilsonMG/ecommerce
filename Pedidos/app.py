@@ -1,11 +1,15 @@
 from flask import Flask, jsonify, request
-import requests, os
+import requests, os, pybreaker
 from database import conectar
 
 url_usuarios = os.getenv("USUARIOS_URL")
 url_productos = os.getenv("PRODUCTOS_URL")
 
 app = Flask(__name__)
+
+circuito_usuarios = pybreaker.CircuitBreaker(fail_max=int(os.getenv("CB_MAX_FALLOS", "3")),reset_timeout=int(os.getenv("CB_RECUPERACION", "30")),throw_new_error_on_trip=False)
+circuito_productos = pybreaker.CircuitBreaker(fail_max=int(os.getenv("CB_MAX_FALLOS", "3")),reset_timeout=int(os.getenv("CB_RECUPERACION", "30")),throw_new_error_on_trip=False)
+
 
 
 @app.route("/pedidos")
@@ -21,6 +25,9 @@ def listar():
 
 @app.route("/pedidos/<int:id>/detalle")
 def buscar(id):
+    tiempo_maximo_u = float(os.getenv("USUARIOS_TIMEOUT", "2"))
+    tiempo_maximo_p = float(os.getenv("PRODUCTOS_TIMEOUT", "2"))
+    
     conexion = conectar()
     cursor = conexion.cursor(dictionary=True)
     sql = "SELECT * FROM pedidos WHERE id = %s"
@@ -48,8 +55,51 @@ def buscar(id):
         producto = requests.get(url_p)
     except requests.exceptions.ConnectionError:
             return jsonify({"mensaje": "Servicio de productos no esta disponible"}), 502
+    try:
+            with circuito_usuarios.calling():
+                usuario = requests.get(url_u, timeout=tiempo_maximo_u)
+                if usuario.status_code >= 500:
+                    usuario.raise_for_status()
+    except pybreaker.CircuitBreakerError:
+            return jsonify({"mensaje": "Circuito abierto: Usuarios no disponible"}), 503
+    except requests.exceptions.Timeout:
+            return jsonify({"mensaje": "Usuarios tardo mucho tiempo en responder"}), 504
+    except requests.exceptions.ConnectionError:
+            return jsonify({"mensaje": "No se puede establecer comunicacion con Usuarios"}), 503
+    except requests.exceptions.HTTPError:
+            return jsonify({"mensaje": "Error del servidor de Usuarios"}), 502
+    
+    if usuario.status_code == 404:
+            return jsonify({"mensaje": "Respuesta inesperada de usuarios"}), 404
+    if usuario.status_code != 200:
+            return jsonify({"mensaje": "Respuesta inesperada de usuarios"}), 502
+    
+    datosusuario = usuario.json()
+    
+    
+    try:
+            with circuito_productos.calling():
+                producto = requests.get(url_p, timeout=tiempo_maximo_p)
+                if producto.status_code >= 500:
+                    producto.raise_for_status()
+    except pybreaker.CircuitBreakerError:
+            return jsonify({"mensaje": "Circuito abierto: Productos no disponible"}), 503
+    except requests.exceptions.Timeout:
+            return jsonify({"mensaje": "Productos tardo mucho tiempo en responder"}), 504
+    except requests.exceptions.ConnectionError:
+            return jsonify({"mensaje": "No se puede establecer comunicacion con Productos"}), 503
+    except requests.exceptions.HTTPError:
+            return jsonify({"mensaje": "Error del servidor de Productos"}), 502
+    
+    if producto.status_code == 404:
+            return jsonify({"mensaje": "Respuesta inesperada de productos"}), 404
+    if producto.status_code != 200:
+            return jsonify({"mensaje": "Respuesta inesperada de productos"}), 502
+    
     datosusuario = usuario.json()
     datospro = producto.json()
+
+    
     return jsonify({
             "usuario": datosusuario.get("nombre"),
             "producto": datospro.get("nombre"),
@@ -58,6 +108,8 @@ def buscar(id):
             "valortotal": pedido["valortotal"],
             "fechaPedido": pedido["fechaPedido"]
         }), 200
+
+
 
 
 @app.route("/pedidos", methods=["POST"])
