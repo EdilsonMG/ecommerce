@@ -1,3 +1,4 @@
+from time import time
 from flask import Flask, jsonify, request
 import requests, os
 from database import conectar
@@ -21,6 +22,7 @@ def listar():
 
 @app.route("/productos/<int:id>")
 def buscar(id):
+    time.spleep(5)
     conexion = conectar()
     cursor = conexion.cursor(dictionary=True)
     sql= """

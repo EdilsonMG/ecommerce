@@ -109,6 +109,14 @@ def buscar(id):
             "fechaPedido": pedido["fechaPedido"]
         }), 200
 
+@app.route("/circuito/pedidos", methods=["GET"])
+def estado_circuit():
+    return jsonify({
+        "estado": circuito_usuarios.current_state.upper(),
+        "fallos_consecutivos": circuito_usuarios.fail_counter,
+        "umbral_fallos": circuito_usuarios.fail_max,
+        "periodo_recuperacion": circuito_usuarios.reset_timeout
+    })
 
 
 
