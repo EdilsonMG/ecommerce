@@ -17,3 +17,4 @@ def conectar():
             print("La base de datos aun esta cargando")
             intento + 1
             time.sleep(3)
+        

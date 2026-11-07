@@ -3,1362 +3,832 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URBN | Streetwear & Urban Fashion</title>
+  <title>URBN | Ropa urbana</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #ffffff;
-      --bg-secondary: #f8f9fa;
-      --text-main: #111111;
-      --text-muted: #666666;
-      --accent: #ff4d00;
-      --accent-hover: #e04400;
-      --border-color: #e5e5e5;
-      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      --bg: #fafafa;
+      --card: #ededed;
+      --ink: #000000;
+      --muted: #777777;
+      --line: #dcdcdc;
+      --white: #ffffff;
+      --radius: 16px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-logo: 'Barlow Condensed', 'Arial Narrow', sans-serif;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: var(--font-main);
-      background-color: var(--bg-primary);
-      color: var(--text-main);
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
       line-height: 1.5;
-      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Top Bar */
-    .promo-bar {
-      background-color: var(--text-main);
-      color: var(--bg-primary);
-      text-align: center;
-      padding: 8px 16px;
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+    /* ---------- Barra superior en movimiento ---------- */
+    .marquee {
+      background: var(--ink);
+      color: var(--white);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 8px 0;
       font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .marquee-track {
+      display: inline-flex;
+      animation: scroll 40s linear infinite;
+    }
+    .marquee-track span { padding: 0 60px; }
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; }
     }
 
-    /* Header & Navigation */
+    /* ---------- Encabezado ---------- */
     header {
       position: sticky;
       top: 0;
-      background: rgba(255, 255, 255, 0.95);
+      z-index: 50;
+      background: rgba(250, 250, 250, 0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
-      z-index: 1000;
     }
-
-    .nav-container {
-      max-width: 1300px;
+    .nav {
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 16px 24px;
-      display: flex;
-      justify-content: space-between;
+      padding: 18px 24px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
+      gap: 16px;
     }
-
     .logo {
-      font-weight: 900;
-      font-size: 1.8rem;
-      letter-spacing: -1px;
-      color: var(--text-main);
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-
-    .logo span {
-      color: var(--accent);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-main);
-      font-weight: 600;
-      font-size: 0.85rem;
-      text-transform: uppercase;
+      font-family: var(--font-logo);
+      font-weight: 700;
+      font-size: 1.7rem;
       letter-spacing: 0.5px;
-      position: relative;
-      padding-bottom: 4px;
-      transition: var(--transition);
-      cursor: pointer;
     }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background-color: var(--accent);
-      transition: var(--transition);
-    }
-
-    .nav-links a:hover::after,
-    .nav-links a.active::after {
-      width: 100%;
-    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 0.95rem; font-weight: 500; }
+    .nav-links a:hover { text-decoration: underline; text-underline-offset: 6px; }
 
     .nav-actions {
       display: flex;
+      justify-content: flex-end;
       align-items: center;
+      gap: 10px;
+    }
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--white);
+      border-radius: 999px;
+      height: 40px;
+      overflow: hidden;
+    }
+    .search-wrap input {
+      width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: width 0.25s ease, padding 0.25s ease;
+    }
+    .search-wrap.open input { width: 170px; padding-left: 16px; }
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: var(--white);
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .btn-pill {
+      background: var(--ink);
+      color: var(--white);
+      border: none;
+      border-radius: 999px;
+      padding: 0 22px;
+      height: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-pill:hover { background: #222; }
+
+    main { max-width: 1120px; margin: 0 auto; padding: 24px 24px 80px; }
+
+    /* ---------- Filtros ---------- */
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+    .chip {
+      border: none;
+      background: var(--white);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .chip.active { background: var(--ink); color: var(--white); }
+
+    /* ---------- Catálogo ---------- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
-
-    .icon-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
+    .card { cursor: pointer; }
+    .card-media {
       position: relative;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .cart-badge {
-      position: absolute;
-      top: -6px;
-      right: -8px;
-      background-color: var(--accent);
-      color: white;
-      font-size: 0.7rem;
-      font-weight: 800;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Hero Section */
-    .hero {
-      position: relative;
-      background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
-      color: white;
-      padding: 90px 24px;
-      min-height: 65vh;
-      display: flex;
-      align-items: center;
+      background: var(--card);
+      border-radius: var(--radius);
+      aspect-ratio: 1 / 1.12;
       overflow: hidden;
     }
-
-    .hero-content {
-      max-width: 1300px;
-      margin: 0 auto;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-text h1 {
-      font-size: 3.8rem;
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -2px;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-
-    .hero-text h1 span {
-      color: var(--accent);
-      display: block;
-    }
-
-    .hero-text p {
-      font-size: 1.05rem;
-      color: #cccccc;
-      margin-bottom: 32px;
-      max-width: 480px;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      background-color: var(--accent);
-      color: white;
-      padding: 16px 36px;
-      font-weight: 800;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 4px 20px rgba(255, 77, 0, 0.3);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--accent-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(255, 77, 0, 0.4);
-    }
-
-    .hero-image-container {
-      position: relative;
-      display: flex;
-      justify-content: center;
-    }
-
-    .hero-image-card {
-      width: 100%;
-      max-width: 420px;
-      height: 480px;
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      position: relative;
-    }
-
-    .hero-image-card img {
+    .card-media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      mix-blend-mode: multiply;
+      transition: transform 0.4s ease;
     }
+    .card:hover .card-media img { transform: scale(1.03); }
 
-    .hero-tag {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
-      padding: 12px 20px;
-      border-left: 3px solid var(--accent);
-    }
-
-    .hero-tag p {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent);
-      font-weight: 800;
-      margin: 0;
-    }
-
-    .hero-tag h4 {
-      font-size: 0.95rem;
-      color: white;
-      font-weight: 700;
-    }
-
-    /* Products Section */
-    .products-section {
-      max-width: 1300px;
-      margin: 70px auto;
-      padding: 0 24px;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 35px;
-      border-bottom: 2px solid var(--text-main);
-      padding-bottom: 16px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .section-title {
-      font-size: 1.8rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: -1px;
-    }
-
-    .filter-tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .tab-btn {
-      background: none;
-      border: 1px solid transparent;
-      font-family: inherit;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 8px 16px;
-      transition: var(--transition);
-      border-radius: 2px;
-    }
-
-    .tab-btn.active, .tab-btn:hover {
-      color: var(--text-main);
-      background-color: var(--bg-secondary);
-      border-color: var(--border-color);
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 28px;
-    }
-
-    .product-card {
-      background: var(--bg-primary);
-      transition: var(--transition);
-      position: relative;
-    }
-
-    .product-image-wrapper {
-      position: relative;
-      width: 100%;
-      height: 340px;
-      background-color: var(--bg-secondary);
-      overflow: hidden;
-    }
-
-    .product-image-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-
-    .product-card:hover .product-image-wrapper img {
-      transform: scale(1.05);
-    }
-
-    .badge-sale {
+    .badge {
       position: absolute;
       top: 12px;
       left: 12px;
-      background-color: var(--accent);
-      color: white;
-      font-size: 0.65rem;
-      font-weight: 800;
-      padding: 4px 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
       z-index: 2;
+      background: var(--white);
+      border-radius: 999px;
+      padding: 6px 14px 6px 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
-
-    .badge-special {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background-color: #111111;
-      color: white;
-      font-size: 0.65rem;
-      font-weight: 800;
-      padding: 4px 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 2;
-      border: 1px solid #333;
-    }
-
-    .add-to-cart-btn {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: var(--text-main);
-      color: white;
-      border: none;
-      padding: 12px;
-      font-weight: 800;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transform: translateY(100%);
-      transition: var(--transition);
-    }
-
-    .product-card:hover .add-to-cart-btn {
-      transform: translateY(0);
-    }
-
-    .add-to-cart-btn:hover {
-      background-color: var(--accent);
-    }
-
-    .product-info {
-      padding: 14px 0;
-    }
-
-    .product-category {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      font-weight: 700;
-      margin-bottom: 4px;
-      letter-spacing: 0.5px;
-    }
-
-    .product-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--text-main);
-    }
-
-    .product-price {
-      font-size: 1rem;
-      font-weight: 800;
-      color: var(--text-main);
-    }
-
-    .product-price span.old-price {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-decoration: line-through;
-      margin-left: 6px;
-      font-weight: 400;
-    }
-
-    /* Cart Sidebar Drawer */
-    .cart-drawer-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: var(--transition);
-    }
-
-    .cart-drawer-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-        .project-info {
-    background-color: var(--bg-secondary);
-    padding: 60px 24px;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-    }
-
-    .project-info-content {
-    max-width: 1300px;
-    margin: 0 auto;
-    }
-
-    .project-info-header {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 40px;
-    }
-
-    .project-info-header p.eyebrow {
-    color: var(--accent);
-    font-weight: 800;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 10px;
-    }
-
-    .project-info-header h2 {
-    font-size: 1.8rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -1px;
-    margin-bottom: 14px;
-    }
-
-    .project-info-header p.description {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    }
-
-    .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    margin-bottom: 50px;
-    }
-
-    .service-card {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    padding: 24px 20px;
-    text-align: center;
-    transition: var(--transition);
-    }
-
-    .service-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-4px);
-    }
-
-    .service-card .icon {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    }
-
-    .service-card h4 {
-    font-size: 0.9rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-    }
-
-    .service-card p {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    }
-
-    .team-block {
-    text-align: center;
-    }
-
-    .team-block h5 {
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-    }
-
-    .team-list {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 14px;
-    list-style: none;
-    }
-
-    .team-list li {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    padding: 10px 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    }
-
-    .team-list li span {
-    display: block;
-    font-size: 0.7rem;
-    color: var(--accent);
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-top: 2px;
-    }
-
-    .cart-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 100%;
-      max-width: 420px;
-      height: 100%;
-      background: white;
-      z-index: 2001;
-      transform: translateX(100%);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .cart-drawer.active {
-      transform: translateX(0);
-    }
-
-    .cart-header {
-      padding: 24px;
-      border-bottom: 1px solid var(--border-color);
+    .card-info {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
+      gap: 12px;
+      padding: 14px 2px 0;
     }
+    .card-name { font-size: 0.95rem; font-weight: 500; }
+    .price { font-size: 1.15rem; font-weight: 600; }
+    .price s { color: #9a9a9a; font-size: 0.9rem; font-weight: 500; margin-left: 6px; }
 
-    .cart-header h3 {
-      font-size: 1.1rem;
-      font-weight: 900;
-      text-transform: uppercase;
+    .swatches { display: flex; gap: 6px; }
+    .swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      padding: 2px;
+      background: var(--white);
+      overflow: hidden;
     }
+    .swatch img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .swatch.active { border-color: var(--ink); }
 
-    .close-btn {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--text-main);
-    }
-
-    .cart-body {
-      flex: 1;
-      padding: 24px;
-      overflow-y: auto;
-    }
-
-    .cart-empty {
+    .empty {
+      grid-column: 1 / -1;
       text-align: center;
-      padding: 40px 0;
-      color: var(--text-muted);
+      padding: 60px 0;
+      color: var(--muted);
     }
 
-    .cart-item {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border-color);
+    /* ---------- Detalle de producto ---------- */
+    #detalle { display: none; }
+    .detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
     }
-
-    .cart-item img {
-      width: 65px;
-      height: 85px;
+    .gallery {
+      position: relative;
+      background: var(--card);
+      border-radius: var(--radius);
+      aspect-ratio: 1 / 1.15;
+      overflow: hidden;
+    }
+    .gallery > img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      background-color: var(--bg-secondary);
+      mix-blend-mode: multiply;
     }
-
-    .cart-item-details {
-      flex: 1;
-    }
-
-    .cart-item-title {
-      font-weight: 700;
-      font-size: 0.85rem;
-      margin-bottom: 4px;
-    }
-
-    .cart-item-price {
-      font-weight: 800;
-      color: var(--accent);
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-    }
-
-    .cart-item-qty {
+    .thumbs {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
+      gap: 6px;
+      background: var(--white);
+      padding: 6px;
+      border-radius: 12px;
+    }
+    .thumbs button {
+      width: 44px;
+      height: 54px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: var(--card);
+      padding: 0;
+      overflow: hidden;
+    }
+    .thumbs button.active { border-color: var(--ink); }
+    .thumbs img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+
+    .crumbs { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .crumbs button {
+      border: none;
+      background: var(--white);
+      border-radius: 999px;
+      padding: 7px 18px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .crumbs .dot { width: 5px; height: 5px; background: var(--ink); border-radius: 50%; }
+    .crumbs span.cat { color: var(--muted); font-size: 0.9rem; }
+
+    .detail h1 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 500;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .detail .price { font-size: 1.3rem; }
+    .detail .desc { color: var(--muted); font-size: 1rem; margin: 28px 0 24px; max-width: 420px; }
+    .btn-order {
+      width: 100%;
+      max-width: 405px;
+      height: 52px;
+      border: none;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .btn-order:hover { background: #222; }
+
+    .specs { margin-top: 64px; max-width: 405px; }
+    .spec {
+      display: grid;
+      grid-template-columns: 130px 1fr;
       align-items: center;
       gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.9rem;
     }
+    .spec:last-child { border-bottom: none; }
+    .spec b { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+    .spec span { color: var(--muted); }
 
-    .qty-btn {
-      width: 24px;
-      height: 24px;
-      border: 1px solid var(--border-color);
-      background: white;
-      cursor: pointer;
-      font-weight: 700;
+    /* ---------- Sección del proyecto ---------- */
+    .project {
+      margin-top: 90px;
+      padding-top: 56px;
+      border-top: 1px solid var(--line);
     }
-
-    .remove-item {
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      text-decoration: underline;
-      cursor: pointer;
-      margin-left: auto;
-    }
-
-    .cart-footer {
-      padding: 24px;
-      border-top: 1px solid var(--border-color);
-      background: var(--bg-secondary);
-    }
-
-    .cart-total {
-      display: flex;
-      justify-content: space-between;
-      font-size: 1.1rem;
-      font-weight: 900;
-      margin-bottom: 20px;
-    }
-
-    .checkout-btn {
-      width: 100%;
-      background-color: var(--accent);
-      color: white;
-      border: none;
-      padding: 16px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .checkout-btn:hover {
-      background-color: var(--accent-hover);
-    }
-
-    /* Footer */
-    footer {
-      background-color: var(--text-main);
-      color: white;
-      padding: 60px 24px 20px;
-      margin-top: 80px;
-    }
-
-    .footer-content {
-      max-width: 1300px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 40px;
-      margin-bottom: 60px;
-    }
-
-    .footer-brand .logo {
-      color: white;
-    }
-
-    .footer-brand p {
-      color: #888888;
-      margin-top: 16px;
-      max-width: 300px;
-      font-size: 0.85rem;
-    }
-
-    .footer-column h5 {
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      margin-bottom: 20px;
-      color: white;
-    }
-
-    .footer-column ul {
-      list-style: none;
-    }
-
-    .footer-column li {
+    .project h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 500;
+      letter-spacing: -0.8px;
       margin-bottom: 12px;
     }
-
-    .footer-column a {
-      color: #888888;
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: var(--transition);
+    .project > p { color: var(--muted); max-width: 640px; margin-bottom: 32px; }
+    .services {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
     }
-
-    .footer-column a:hover {
-      color: white;
+    .service {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 22px 20px;
     }
+    .service h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .service p { font-size: 0.85rem; color: var(--muted); }
+    .service small { display: block; margin-top: 14px; font-size: 0.78rem; font-weight: 500; }
 
-    .footer-bottom {
-      max-width: 1300px;
+    .team h3 { font-size: 1rem; font-weight: 600; margin-bottom: 14px; }
+    .team ul { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; }
+    .team li {
+      background: var(--white);
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .team li span { color: var(--muted); font-weight: 400; margin-left: 6px; }
+
+    footer {
+      max-width: 1120px;
       margin: 0 auto;
-      padding-top: 20px;
-      border-top: 1px solid #222222;
+      padding: 28px 24px 40px;
+      border-top: 1px solid var(--line);
       display: flex;
       justify-content: space-between;
-      color: #666666;
-      font-size: 0.75rem;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.85rem;
     }
 
-    /* Toast Notification */
+    /* ---------- Aviso ---------- */
     .toast {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: var(--text-main);
-      color: white;
-      padding: 12px 24px;
-      border-left: 4px solid var(--accent);
-      font-weight: 600;
-      font-size: 0.85rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      transform: translateY(100px);
-      opacity: 0;
-      transition: var(--transition);
-      z-index: 3000;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 120px);
+      background: var(--ink);
+      color: var(--white);
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: transform 0.3s ease;
+      z-index: 100;
     }
+    .toast.show { transform: translate(-50%, 0); }
 
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
+    /* ---------- Responsive ---------- */
     @media (max-width: 900px) {
-      .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .hero-text h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero-text p {
-        margin: 0 auto 32px;
-      }
-
-      .footer-content {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .nav-links {
-        display: none;
-      }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .detail { grid-template-columns: 1fr; gap: 28px; }
+      .services { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 720px) {
+      .nav { grid-template-columns: 1fr auto; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 520px) {
+      .grid { grid-template-columns: 1fr; }
+      .services { grid-template-columns: 1fr; }
+      .search-wrap.open input { width: 110px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Announcement Bar -->
-  <div class="promo-bar">
-    Envío gratis en compras superiores a $150.000 | Código: URBN2026
+  <!-- Barra superior -->
+  <div class="marquee" aria-label="Promoción">
+    <div class="marquee-track" id="marquee-track"></div>
   </div>
 
-  <!-- Main Navigation Header -->
+  <!-- Encabezado -->
   <header>
-    <div class="nav-container">
-      <a href="#" class="logo">URBN<span>.</span></a>
+    <div class="nav">
+      <a href="#" class="logo" onclick="irACatalogo(event)">URBN</a>
       <ul class="nav-links">
-        <li><a href="#" class="nav-link active" data-filter="all">Inicio</a></li>
-        <li><a href="#productos" class="nav-link" data-filter="all">Colección</a></li>
-        <li><a href="#productos" class="nav-link" data-filter="hoodies">Hoodies</a></li>
-        <li><a href="#productos" class="nav-link" data-filter="tshirts">Oversized</a></li>
-        <li><a href="#productos" class="nav-link" data-filter="sports">Deportes</a></li>
-        <li><a href="#productos" class="nav-link" data-filter="offers">Ofertas</a></li>
+        <li><a href="#" onclick="irACatalogo(event)">Inicio</a></li>
+        <li><a href="#catalogo" onclick="irACatalogo(event)">Tienda</a></li>
+        <li><a href="#proyecto">Proyecto</a></li>
+        <li><a href="#equipo">Equipo</a></li>
       </ul>
       <div class="nav-actions">
-        <button class="icon-btn" id="open-cart-btn" aria-label="Ver Carrito">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-          </svg>
-          <span class="cart-badge" id="cart-count">0</span>
-        </button>
+        <div class="search-wrap" id="search-wrap">
+          <input type="text" id="search-input" placeholder="Buscar producto" aria-label="Buscar producto">
+          <button class="icon-btn" id="search-btn" aria-label="Buscar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+          </button>
+        </div>
+        <a href="#catalogo" class="btn-pill" onclick="irACatalogo(event)">Ver todo</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-text">
-        <h1>Moda Urbana <span>Sin Reglas.</span></h1>
-        <p>Diseños contemporáneos, cortes holgados y materiales premium pensados para la cultura streetwear actual.</p>
-        <a href="#productos" class="btn-primary">Explorar Colección</a>
-      </div>
-      <div class="hero-image-container">
-        <div class="hero-image-card">
-          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80" alt="Colección de Streetwear Urbana">
-          <div class="hero-tag">
-            <p>Nuevo Lanzamiento</p>
-            <h4>Colección Heavyweight '26</h4>
-          </div>
+  <main>
+    <!-- Vista: catálogo -->
+    <section id="catalogo">
+      <div class="filters" id="filters"></div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <!-- Vista: detalle -->
+    <section id="detalle"></section>
+
+    <!-- Información del proyecto -->
+    <section class="project" id="proyecto">
+      <h2>URBN, plataforma de comercio electrónico distribuida</h2>
+      <p>Tienda en línea de ropa urbana construida con microservicios. Cada módulo se ejecuta en su propio contenedor, con su propia base de datos, y se comunica con los demás por HTTP.</p>
+
+      <div class="services">
+        <div class="service">
+          <h3>Home</h3>
+          <p>Vista principal de la tienda.</p>
+          <small>Puerto 3000</small>
+        </div>
+        <div class="service">
+          <h3>Usuarios</h3>
+          <p>Gestión de clientes.</p>
+          <small>Puerto 5001</small>
+        </div>
+        <div class="service">
+          <h3>Productos</h3>
+          <p>Catálogo, precios e inventario.</p>
+          <small>Puerto 5002</small>
+        </div>
+        <div class="service">
+          <h3>Pedidos</h3>
+          <p>Órdenes de compra de los clientes.</p>
+          <small>Puerto 5003</small>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Products Section -->
-  <section class="products-section" id="productos">
-    <div class="section-header">
-      <h2 class="section-title">Nuestra Colección</h2>
-      <div class="filter-tabs">
-        <button class="tab-btn active" data-filter="all">Todos (20)</button>
-        <button class="tab-btn" data-filter="hoodies">Hoodies</button>
-        <button class="tab-btn" data-filter="tshirts">Camisetas</button>
-        <button class="tab-btn" data-filter="pants">Pantalones</button>
-        <button class="tab-btn" data-filter="jackets">Chaquetas</button>
-        <button class="tab-btn" data-filter="sports">Especiales</button>
-      </div>
-    </div>
-
-    <div class="product-grid" id="product-grid">
-      <!-- Inyectados dinámicamente con JS -->
-    </div>
-  </section>
-
-  <!-- Cart Side Drawer Overlay -->
-  <div class="cart-drawer-overlay" id="cart-overlay"></div>
-
-  <!-- Cart Side Drawer -->
-  <aside class="cart-drawer" id="cart-drawer">
-    <div class="cart-header">
-      <h3>Tu Carrito (<span id="drawer-cart-count">0</span>)</h3>
-      <button class="close-btn" id="close-cart-btn">&times;</button>
-    </div>
-    <div class="cart-body" id="cart-body">
-      <!-- Items del carrito -->
-    </div>
-    <div class="cart-footer">
-      <div class="cart-total">
-        <span>Total:</span>
-        <span id="cart-total-price">$0</span>
-      </div>
-      <button class="checkout-btn" onclick="checkout()">Finalizar Compra</button>
-    </div>
-  </aside>
-
-  <!-- Toast Notification -->
-  <div class="toast" id="toast">Producto añadido al carrito</div>
-
-    <section class="project-info">
-      <div class="team-block">
-        <h5>Equipo de Desarrollo</h5>
-        <ul class="team-list">
-          <li>Nombre Integrante 1<span>Arquitectura</span></li>
-          <li>Nombre Integrante 2<span>Vista Home</span></li>
-          <li>Nombre Integrante 3<span>Docker &amp; Compose</span></li>
+      <div class="team" id="equipo">
+        <h3>Equipo de desarrollo</h3>
+        <ul>
+          <li>Nombre integrante 1<span>Usuarios</span></li>
+          <li>Nombre integrante 2<span>Productos y Home</span></li>
+          <li>Nombre integrante 3<span>Pedidos y Docker Compose</span></li>
         </ul>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- Footer -->
   <footer>
-    <div class="footer-content">
-      <div class="footer-brand">
-        <a href="#" class="logo">URBN<span>.</span></a>
-        <p>Marca independiente de indumentaria urbana focalizada en calidad, durabilidad y siluetas modernas.</p>
-      </div>
-      <div class="footer-column">
-        <h5>Tienda</h5>
-        <ul>
-          <li><a href="#productos">Colección 2026</a></li>
-          <li><a href="#productos">Hoodies</a></li>
-          <li><a href="#productos">Camisetas Oversized</a></li>
-          <li><a href="#productos">Ediciones Especiales</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h5>Soporte</h5>
-        <ul>
-          <li><a href="#">Envíos y Entregas</a></li>
-          <li><a href="#">Guía de Tallas</a></li>
-          <li><a href="#">Cambios y Devoluciones</a></li>
-          <li><a href="#">Contacto</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h5>Social</h5>
-        <ul>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">TikTok</a></li>
-          <li><a href="#">YouTube</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 URBN Streetwear. Todos los derechos reservados.</p>
-      <p>Desarrollado para e-commerce profesional</p>
-    </div>
+    <span>URBN, proyecto de Sistemas Distribuidos</span>
+    <span>2026</span>
   </footer>
 
-  <!-- JavaScript Logics -->
+  <div class="toast" id="toast"></div>
+
   <script>
-    // Catálogo de 20 Productos
-    const products = [
+    /* =====================================================
+       CONFIGURACIÓN
+       Por ahora el catálogo sale del arreglo "productos" de abajo.
+       Cuando el servicio Productos esté listo, cambia USAR_API a true
+       y el catálogo se cargará desde la base de datos.
+       ===================================================== */
+    const USAR_API = false;
+    const API_PRODUCTOS = "http://localhost:5002/productos";
+
+    const IMG = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=800&q=80`;
+
+    /* =====================================================
+       PRODUCTOS (para agregar uno nuevo, copia un bloque,
+       cambia el id y completa los datos)
+       categoria: "tshirts" | "hoodies" | "pants" | "jackets"
+       ===================================================== */
+    let productos = [
       {
         id: 1,
-        title: "Camiseta Junior de Barranquilla 2026",
-        category: "sports",
-        categoryLabel: "Edición Especial",
-        price: 249000,
-        oldPrice: 280000,
-        image: "https://velocitysavage.com/cdn/shop/files/camiseta-junior-de-barranquilla-2026-9670988.png?v=1772733786",
-        sale: true,
-        special: "Lanza '26"
+        nombre: "Hoodie Heavyweight Black",
+        categoria: "hoodies",
+        precio: 180000,
+        precioAnterior: 220000,
+        nuevo: true,
+        imagenes: [IMG("photo-1556905055-8f358a7a47b2"), IMG("photo-1509967419530-da38b4704bc6"), IMG("photo-1578587018452-892bacefd3f2")],
+        descripcion: "Buzo grueso de corte holgado, con capucha doble y interior afelpado para el uso diario.",
+        material: "Algodón pesado de 450 g",
+        cuidado: "Lavar en frío, secar a la sombra",
+        garantia: "Un año por defectos de fábrica"
       },
       {
         id: 2,
-        title: "Hoodie Heavyweight Black",
-        category: "hoodies",
-        categoryLabel: "Hoodie",
-        price: 180000,
-        oldPrice: 220000,
-        image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80",
-        sale: true
+        nombre: "Camiseta Oversized Raw White",
+        categoria: "tshirts",
+        precio: 95000,
+        precioAnterior: null,
+        nuevo: true,
+        imagenes: [IMG("photo-1521572267360-ee0c2909d518"), IMG("photo-1581655353564-df123a1eb820")],
+        descripcion: "Camiseta de caída amplia en algodón crudo, cuello reforzado y costuras dobles.",
+        material: "Algodón orgánico peinado",
+        cuidado: "Lavar en frío, no usar blanqueador",
+        garantia: "Un año por defectos de fábrica"
       },
       {
         id: 3,
-        title: "Camiseta Oversized Raw White",
-        category: "tshirts",
-        categoryLabel: "Camiseta",
-        price: 95000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
-        sale: false
+        nombre: "Pantalón Cargo Tactical Grey",
+        categoria: "pants",
+        precio: 210000,
+        precioAnterior: 240000,
+        nuevo: true,
+        imagenes: [IMG("photo-1624378439575-d8705ad7ae80"), IMG("photo-1517445312882-bc9910d016b7")],
+        descripcion: "Cargo de pierna recta con seis bolsillos y ajuste en el tobillo.",
+        material: "Gabardina de algodón con elastano",
+        cuidado: "Lavar del revés, planchar a baja temperatura",
+        garantia: "Un año por defectos de fábrica"
       },
       {
         id: 4,
-        title: "Pantalon Cargo Tactical Grey",
-        category: "pants",
-        categoryLabel: "Pantalón",
-        price: 210000,
-        oldPrice: 240000,
-        image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
-        sale: true
+        nombre: "Chaqueta Bomber Minimalist Dark",
+        categoria: "jackets",
+        precio: 290000,
+        precioAnterior: null,
+        nuevo: false,
+        imagenes: [IMG("photo-1548883354-7622d03aca27"), IMG("photo-1544441893-675973e31985")],
+        descripcion: "Bomber ligera con cierre metálico y puños elásticos, sin logos visibles.",
+        material: "Nailon reciclado con forro de poliéster",
+        cuidado: "Lavar a mano, no usar secadora",
+        garantia: "Un año por defectos de fábrica"
       },
       {
         id: 5,
-        title: "Chaqueta Bomber Minimalist Dark",
-        category: "jackets",
-        categoryLabel: "Chaqueta",
-        price: 290000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
-        sale: false
+        nombre: "Camiseta Boxy Fit Orange",
+        categoria: "tshirts",
+        precio: 88000,
+        precioAnterior: 110000,
+        nuevo: true,
+        imagenes: [IMG("photo-1583743814966-8936f5b7be1a"), IMG("photo-1503342217505-b0a15ec3261c")],
+        descripcion: "Corte cuadrado y largo corto, con un acento de color en el dobladillo.",
+        material: "Algodón jersey de 220 g",
+        cuidado: "Lavar en frío, secar a la sombra",
+        garantia: "Un año por defectos de fábrica"
       },
       {
         id: 6,
-        title: "Hoodie Acid Wash Charcoal",
-        category: "hoodies",
-        categoryLabel: "Hoodie",
-        price: 195000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=600&q=80",
-        sale: false
+        nombre: "Jogger Heavyweight Anthracite",
+        categoria: "pants",
+        precio: 165000,
+        precioAnterior: 190000,
+        nuevo: false,
+        imagenes: [IMG("photo-1552902865-b72c031ac5ea"), IMG("photo-1473966968600-fa801b869a1a")],
+        descripcion: "Jogger de felpa gruesa con cintura ajustable y bolsillo con cremallera.",
+        material: "Felpa francesa de algodón",
+        cuidado: "Lavar en frío, no planchar el estampado",
+        garantia: "Un año por defectos de fábrica"
       },
       {
         id: 7,
-        title: "Camiseta Boxy Fit Orange Accent",
-        category: "tshirts",
-        categoryLabel: "Camiseta",
-        price: 88000,
-        oldPrice: 110000,
-        image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80",
-        sale: true
+        nombre: "Chaqueta Denim Oversized",
+        categoria: "jackets",
+        precio: 270000,
+        precioAnterior: null,
+        nuevo: true,
+        imagenes: [IMG("photo-1576995853123-5a10305d93c0"), IMG("photo-1548883354-7622d03aca27")],
+        descripcion: "Chaqueta de mezclilla lavada, hombros caídos y botones metálicos.",
+        material: "Denim de algodón de 12 oz",
+        cuidado: "Lavar del revés, secar al aire",
+        garantia: "Un año por defectos de fábrica"
       },
       {
         id: 8,
-        title: "Jogger Heavyweight Anthracite",
-        category: "pants",
-        categoryLabel: "Pantalón",
-        price: 165000,
-        oldPrice: 190000,
-        image: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=600&q=80",
-        sale: true
+        nombre: "Hoodie Acid Wash Charcoal",
+        categoria: "hoodies",
+        precio: 195000,
+        precioAnterior: null,
+        nuevo: false,
+        imagenes: [IMG("photo-1509967419530-da38b4704bc6"), IMG("photo-1556905055-8f358a7a47b2")],
+        descripcion: "Buzo con lavado ácido hecho a mano, por lo que cada pieza sale distinta.",
+        material: "Algodón pesado con lavado ácido",
+        cuidado: "Lavar por separado, en frío",
+        garantia: "Un año por defectos de fábrica"
       },
       {
         id: 9,
-        title: "Chaqueta Denim Oversized Vintage",
-        category: "jackets",
-        categoryLabel: "Chaqueta",
-        price: 270000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=600&q=80",
-        sale: false
-      },
-      {
-        id: 10,
-        title: "Camiseta Graphic Cyberpunk Black",
-        category: "tshirts",
-        categoryLabel: "Camiseta",
-        price: 92000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
-        sale: false
-      },
-      {
-        id: 11,
-        title: "Hoodie Essential Sand Tone",
-        category: "hoodies",
-        categoryLabel: "Hoodie",
-        price: 175000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80",
-        sale: false
-      },
-      {
-        id: 12,
-        title: "Pantalon Parachute Techwear",
-        category: "pants",
-        categoryLabel: "Pantalón",
-        price: 230000,
-        oldPrice: 260000,
-        image: "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=600&q=80",
-        sale: true
-      },
-      {
-        id: 13,
-        title: "Chaqueta Windbreaker Utility",
-        category: "jackets",
-        categoryLabel: "Chaqueta",
-        price: 245000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80",
-        sale: false
-      },
-      {
-        id: 14,
-        title: "Camiseta Minimalist Off-White",
-        category: "tshirts",
-        categoryLabel: "Camiseta",
-        price: 85000,
-        oldPrice: 100000,
-        image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=600&q=80",
-        sale: true
-      },
-      {
-        id: 15,
-        title: "Hoodie Zip-Up Heavyweight",
-        category: "hoodies",
-        categoryLabel: "Hoodie",
-        price: 189000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=600&q=80",
-        sale: false
-      },
-      {
-        id: 16,
-        title: "Pantalon Relaxed Fit Olive",
-        category: "pants",
-        categoryLabel: "Pantalón",
-        price: 198000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=600&q=80",
-        sale: false
-      },
-      {
-        id: 17,
-        title: "Camiseta Longsleeve Street Edition",
-        category: "tshirts",
-        categoryLabel: "Camiseta",
-        price: 110000,
-        oldPrice: 130000,
-        image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
-        sale: true
-      },
-      {
-        id: 18,
-        title: "Chaqueta Puffer Oversized Dark",
-        category: "jackets",
-        categoryLabel: "Chaqueta",
-        price: 340000,
-        oldPrice: 380000,
-        image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
-        sale: true
-      },
-      {
-        id: 19,
-        title: "Hoodie Oversized Forest Green",
-        category: "hoodies",
-        categoryLabel: "Hoodie",
-        price: 185000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=600&q=80",
-        sale: false
-      },
-      {
-        id: 20,
-        title: "Short Cargo Streetwear",
-        category: "pants",
-        categoryLabel: "Pantalón",
-        price: 140000,
-        oldPrice: null,
-        image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=600&q=80",
-        sale: false
+        nombre: "Camiseta Graphic Cyberpunk",
+        categoria: "tshirts",
+        precio: 92000,
+        precioAnterior: null,
+        nuevo: false,
+        imagenes: [IMG("photo-1503342217505-b0a15ec3261c"), IMG("photo-1521572267360-ee0c2909d518")],
+        descripcion: "Camiseta negra con estampado frontal en serigrafía de alta densidad.",
+        material: "Algodón jersey de 200 g",
+        cuidado: "Lavar del revés, no planchar el estampado",
+        garantia: "Un año por defectos de fábrica"
       }
     ];
 
-    // Estado del Carrito
-    let cart = [];
-
-    // Formateador de moneda en Pesos
-    const formatCurrency = (amount) => {
-      return new Intl.NumberFormat('es-CO', {
-        style: 'currency',
-        currency: 'COP',
-        maximumFractionDigits: 0
-      }).format(amount);
+    const ETIQUETAS = {
+      tshirts: "Camisetas",
+      hoodies: "Hoodies",
+      pants: "Pantalones",
+      jackets: "Chaquetas"
     };
 
-    // Renderizar Productos
-    const renderProducts = (filter = 'all') => {
-      const grid = document.getElementById('product-grid');
-      let filtered = products;
+    const IMG_RESPALDO = "data:image/svg+xml;utf8," + encodeURIComponent(
+      "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='460'><rect width='100%' height='100%' fill='#ededed'/><text x='50%' y='50%' fill='#999' font-family='sans-serif' font-size='16' text-anchor='middle'>Sin imagen</text></svg>"
+    );
 
-      if (filter === 'offers') {
-        filtered = products.filter(p => p.sale);
-      } else if (filter !== 'all') {
-        filtered = products.filter(p => p.category === filter);
-      }
+    let filtro = "all";
+    let busqueda = "";
 
-      grid.innerHTML = filtered.map(product => `
-        <article class="product-card">
-          <div class="product-image-wrapper">
-            ${product.sale ? `<span class="badge-sale">Oferta</span>` : ''}
-            ${product.special ? `<span class="badge-special">${product.special}</span>` : ''}
-            <img src="${product.image}" alt="${product.title}" loading="lazy">
-            <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Añadir al Carrito</button>
-          </div>
-          <div class="product-info">
-            <p class="product-category">${product.categoryLabel}</p>
-            <h3 class="product-title">${product.title}</h3>
-            <p class="product-price">
-              ${formatCurrency(product.price)}
-              ${product.oldPrice ? `<span class="old-price">${formatCurrency(product.oldPrice)}</span>` : ''}
-            </p>
-          </div>
-        </article>
-      `).join('');
-    };
+    /* ---------- Utilidades ---------- */
+    const moneda = (n) => new Intl.NumberFormat("es-CO", {
+      style: "currency", currency: "COP", maximumFractionDigits: 0
+    }).format(n);
 
-    // Filtros de Categoría y Navegación
-    const applyFilter = (filterCategory) => {
-      renderProducts(filterCategory);
+    const $ = (id) => document.getElementById(id);
 
-      // Sincronizar Pestañas del catálogo
-      document.querySelectorAll('.tab-btn').forEach(b => {
-        b.classList.toggle('active', b.dataset.filter === filterCategory);
-      });
+    const imgTag = (src, alt) =>
+      `<img src="${src}" alt="${alt}" loading="lazy" onerror="this.onerror=null;this.src='${IMG_RESPALDO}'">`;
 
-      // Sincronizar Menú de Navegación
-      document.querySelectorAll('.nav-link').forEach(n => {
-        n.classList.toggle('active', n.dataset.filter === filterCategory);
-      });
-    };
+    const iconoNuevo = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></svg>`;
 
-    // Añadir al Carrito
-    const addToCart = (productId) => {
-      const product = products.find(p => p.id === productId);
-      const existingItem = cart.find(item => item.id === productId);
+    function avisar(texto) {
+      const t = $("toast");
+      t.textContent = texto;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2800);
+    }
 
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        cart.push({ ...product, quantity: 1 });
-      }
+    /* ---------- Barra superior ---------- */
+    (function () {
+      const frase = "Venta especial 30% de descuento";
+      const bloque = Array.from({ length: 10 }, () => `<span>${frase}</span>`).join("");
+      $("marquee-track").innerHTML = bloque + bloque;
+    })();
 
-      updateCart();
-      showToast(`"${product.title}" añadido al carrito`);
-    };
+    /* ---------- Catálogo ---------- */
+    function pintarFiltros() {
+      const categorias = ["all", ...new Set(productos.map(p => p.categoria))];
+      $("filters").innerHTML = categorias.map(c => `
+        <button class="chip ${filtro === c ? "active" : ""}" data-cat="${c}">
+          ${c === "all" ? "Todos" : (ETIQUETAS[c] || c)}
+        </button>`).join("");
+      document.querySelectorAll(".chip").forEach(b =>
+        b.addEventListener("click", () => { filtro = b.dataset.cat; pintarCatalogo(); })
+      );
+    }
 
-    // Modificar Cantidad
-    const updateQuantity = (productId, change) => {
-      const item = cart.find(i => i.id === productId);
-      if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) {
-          cart = cart.filter(i => i.id !== productId);
-        }
-      }
-      updateCart();
-    };
+    function pintarCatalogo() {
+      pintarFiltros();
+      const lista = productos.filter(p =>
+        (filtro === "all" || p.categoria === filtro) &&
+        p.nombre.toLowerCase().includes(busqueda)
+      );
 
-    // Eliminar del Carrito
-    const removeFromCart = (productId) => {
-      cart = cart.filter(i => i.id !== productId);
-      updateCart();
-    };
-
-    // Actualizar UI del Carrito
-    const updateCart = () => {
-      const cartCount = document.getElementById('cart-count');
-      const drawerCount = document.getElementById('drawer-cart-count');
-      const cartBody = document.getElementById('cart-body');
-      const totalPrice = document.getElementById('cart-total-price');
-
-      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-      const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-      cartCount.textContent = totalItems;
-      drawerCount.textContent = totalItems;
-      totalPrice.textContent = formatCurrency(totalAmount);
-
-      if (cart.length === 0) {
-        cartBody.innerHTML = `<div class="cart-empty"><p>Tu carrito está vacío.</p></div>`;
-      } else {
-        cartBody.innerHTML = cart.map(item => `
-          <div class="cart-item">
-            <img src="${item.image}" alt="${item.title}">
-            <div class="cart-item-details">
-              <h4 class="cart-item-title">${item.title}</h4>
-              <p class="cart-item-price">${formatCurrency(item.price)}</p>
-              <div class="cart-item-qty">
-                <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                <span>${item.quantity}</span>
-                <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                <span class="remove-item" onclick="removeFromCart(${item.id})">Eliminar</span>
-              </div>
-            </div>
-          </div>
-        `).join('');
-      }
-    };
-
-    // Notificación Toast
-    const showToast = (message) => {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    };
-
-    // Eventos del Drawer de Carrito
-    const cartDrawer = document.getElementById('cart-drawer');
-    const cartOverlay = document.getElementById('cart-overlay');
-    const openCartBtn = document.getElementById('open-cart-btn');
-    const closeCartBtn = document.getElementById('close-cart-btn');
-
-    const toggleCart = (open) => {
-      if (open) {
-        cartDrawer.classList.add('active');
-        cartOverlay.classList.add('active');
-      } else {
-        cartDrawer.classList.remove('active');
-        cartOverlay.classList.remove('active');
-      }
-    };
-
-    openCartBtn.addEventListener('click', () => toggleCart(true));
-    closeCartBtn.addEventListener('click', () => toggleCart(false));
-    cartOverlay.addEventListener('click', () => toggleCart(false));
-
-    // Listeners para los Tabs del Catálogo
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        applyFilter(e.target.dataset.filter);
-      });
-    });
-
-    // Listeners para los Links de la Barra de Navegación
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const filterCategory = e.target.dataset.filter;
-        if (filterCategory) {
-          applyFilter(filterCategory);
-        }
-      });
-    });
-
-    // Simular Checkout
-    const checkout = () => {
-      if (cart.length === 0) {
-        alert("Agrega productos antes de realizar el pedido.");
+      if (lista.length === 0) {
+        $("grid").innerHTML = `<p class="empty">No hay productos que coincidan. Prueba con otra búsqueda o categoría.</p>`;
         return;
       }
-      alert("¡Gracias por tu compra! Tu pedido ha sido registrado con éxito.");
-      cart = [];
-      updateCart();
-      toggleCart(false);
-    };
 
-    // Inicializar
-    renderProducts();
+      $("grid").innerHTML = lista.map(p => `
+        <article class="card" data-id="${p.id}">
+          <div class="card-media">
+            ${p.nuevo ? `<span class="badge">${iconoNuevo} Nuevo</span>` : ""}
+            ${imgTag(p.imagenes[0], p.nombre)}
+          </div>
+          <div class="card-info">
+            <div>
+              <h3 class="card-name">${p.nombre}</h3>
+              <p class="price">${moneda(p.precio)}${p.precioAnterior ? `<s>${moneda(p.precioAnterior)}</s>` : ""}</p>
+            </div>
+            <div class="swatches">
+              ${p.imagenes.slice(0, 2).map((src, i) => `
+                <button class="swatch ${i === 0 ? "active" : ""}" data-src="${src}" aria-label="Ver imagen ${i + 1}">
+                  ${imgTag(src, "")}
+                </button>`).join("")}
+            </div>
+          </div>
+        </article>`).join("");
+
+      document.querySelectorAll(".card").forEach(card => {
+        card.addEventListener("click", () => verDetalle(Number(card.dataset.id)));
+        card.querySelectorAll(".swatch").forEach(sw => {
+          sw.addEventListener("click", (e) => {
+            e.stopPropagation();
+            card.querySelector(".card-media img").src = sw.dataset.src;
+            card.querySelectorAll(".swatch").forEach(s => s.classList.remove("active"));
+            sw.classList.add("active");
+          });
+        });
+      });
+    }
+
+    /* ---------- Detalle ---------- */
+    function verDetalle(id) {
+      const p = productos.find(x => x.id === id);
+      if (!p) return;
+
+      $("detalle").innerHTML = `
+        <div class="detail">
+          <div class="gallery">
+            ${p.nuevo ? `<span class="badge">${iconoNuevo} Nuevo</span>` : ""}
+            <img id="imagen-principal" src="${p.imagenes[0]}" alt="${p.nombre}" onerror="this.onerror=null;this.src='${IMG_RESPALDO}'">
+            <div class="thumbs">
+              ${p.imagenes.map((src, i) => `
+                <button class="${i === 0 ? "active" : ""}" data-src="${src}" aria-label="Ver imagen ${i + 1}">${imgTag(src, "")}</button>`).join("")}
+            </div>
+          </div>
+
+          <div>
+            <div class="crumbs">
+              <button id="volver">Tienda</button>
+              <span class="dot"></span>
+              <span class="cat">${ETIQUETAS[p.categoria] || p.categoria}</span>
+            </div>
+            <h1>${p.nombre}</h1>
+            <p class="price">${moneda(p.precio)}${p.precioAnterior ? `<s>${moneda(p.precioAnterior)}</s>` : ""}</p>
+            <p class="desc">${p.descripcion || "Sin descripción por ahora."}</p>
+            <button class="btn-order" id="btn-pedir">Pedir ahora</button>
+
+            <div class="specs">
+              <div class="spec"><b>${iconoSpec("caja")} Material</b><span>${p.material || "Por definir"}</span></div>
+              <div class="spec"><b>${iconoSpec("cuidado")} Cuidado</b><span>${p.cuidado || "Por definir"}</span></div>
+              <div class="spec"><b>${iconoSpec("garantia")} Garantía</b><span>${p.garantia || "Por definir"}</span></div>
+            </div>
+          </div>
+        </div>`;
+
+      $("catalogo").style.display = "none";
+      $("detalle").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      $("volver").addEventListener("click", irACatalogo);
+      $("btn-pedir").addEventListener("click", () => pedir(p));
+      document.querySelectorAll(".thumbs button").forEach(b =>
+        b.addEventListener("click", () => {
+          $("imagen-principal").src = b.dataset.src;
+          document.querySelectorAll(".thumbs button").forEach(x => x.classList.remove("active"));
+          b.classList.add("active");
+        })
+      );
+    }
+
+    function iconoSpec(tipo) {
+      const iconos = {
+        caja: `<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v9"/>`,
+        cuidado: `<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/>`,
+        garantia: `<path d="M5 12l5 5L20 7"/>`
+      };
+      return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${iconos[tipo]}</svg>`;
+    }
+
+    function irACatalogo(e) {
+      if (e) e.preventDefault();
+      $("detalle").style.display = "none";
+      $("catalogo").style.display = "block";
+      if (e && e.currentTarget && e.currentTarget.getAttribute("href") === "#catalogo") {
+        $("catalogo").scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+
+    /* ---------- Pedido ----------
+       Más adelante aquí se hará un POST al servicio Pedidos:
+       fetch("http://localhost:5003/pedidos", { method: "POST", ... })
+       Por ahora solo se muestra un aviso. */
+    function pedir(producto) {
+      avisar(`Pedido de "${producto.nombre}" registrado (simulado)`);
+    }
+
+    /* ---------- Búsqueda ---------- */
+    $("search-btn").addEventListener("click", () => {
+      const wrap = $("search-wrap");
+      wrap.classList.toggle("open");
+      if (wrap.classList.contains("open")) $("search-input").focus();
+    });
+    $("search-input").addEventListener("input", (e) => {
+      busqueda = e.target.value.toLowerCase().trim();
+      irACatalogo();
+      pintarCatalogo();
+    });
+
+    /* ---------- Carga inicial ---------- */
+    async function cargarDesdeAPI() {
+      try {
+        const resp = await fetch(API_PRODUCTOS);
+        const datos = await resp.json();
+        productos = datos.map(p => ({
+          id: p.id,
+          nombre: p.nombre,
+          categoria: p.categoria,
+          precio: Number(p.precio),
+          precioAnterior: null,
+          nuevo: true,
+          imagenes: [IMG("photo-1556905055-8f358a7a47b2")],
+          descripcion: "",
+          material: "", cuidado: "", garantia: ""
+        }));
+      } catch (error) {
+        console.error("No se pudo conectar al servicio de productos, se usa el catálogo local:", error);
+      }
+    }
+
+    (async function iniciar() {
+      if (USAR_API) await cargarDesdeAPI();
+      pintarCatalogo();
+    })();
   </script>
 </body>
 </html>

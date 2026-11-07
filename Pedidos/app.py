@@ -163,9 +163,6 @@ def eliminar(id):
     return jsonify({"mensaje": "Pedido eliminado correctamente"}), 200
 
 
-
-
-
 @app.route("/pedidos/<int:id>", methods=["PUT"])
 def actualizar_completo(id):
     datos = request.json
