@@ -139,6 +139,15 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | `PRODUCTOS_URL` | URL de acceso al microservicio de Productos (`http://productos:5000`) |
 
 
+##
+| Microservicio | Responsabilidad | Base de datos | Comunicación con otros servicios | Estado |
+| :--- | :--- | :--- | :--- | :--- |
+| **Usuarios** | Gestionar el registro, consulta, actualización y eliminación (CRUD) de los clientes de la plataforma. | `usuarios_db` (`mysqlusuarios` - MySQL 8.0) | Recibe peticiones HTTP `GET /usuarios/{id}` desde **Pedidos** (para validar los datos del cliente) y tráfico enrutado desde **Gateway**. | Implementado |
+| **Productos** | Administrar el catálogo de artículos, categorías, precios y control de disponibilidad/stock. | `productos_db` (`mysqlproductos` - MySQL 8.0) | Recibe consultas `GET /productos` desde **Home** (vía Gateway) y `GET /productos/{id}` desde **Pedidos** para enriquecer las órdenes. | Implementado |
+| **Pedidos** | Procesar las órdenes de compra de los clientes y consolidar el detalle completo de cada pedido. | `pedidos_db` (`mysqlpedidos` - MySQL 8.0) | Consulta vía HTTP a **Usuarios** y **Productos** aplicando **Timeout (2s)** y **Circuit Breaker**; recibe tráfico enrutado desde **Gateway**. | Implementado |
+| **Gateway** | Punto único de entrada centralizado; enruta solicitudes HTTP hacia cada microservicio y gestiona errores de red (`503`, `504`). | No aplica (Stateless) | Recibe peticiones de **Home** y clientes externos, y las redirige internamente hacia **Usuarios**, **Productos** y **Pedidos**. | Implementado |
+| **Home** | Interfaz web principal (Frontend en Nginx) que muestra el catálogo de productos y permite registrar pedidos reales. | No aplica (Frontend) | Envía solicitudes REST (`/productos`, `/pedidos`) hacia **Gateway**. | Implementado |
+
 ## Como levantar el contenedor
 docker compose up --build
 
