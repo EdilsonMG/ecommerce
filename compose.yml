@@ -6,9 +6,11 @@ services:
     ports:
       - "3000:80"
     container_name: home
+    depends_on:
+      - productos
 
   usuarios:
-    build: ./usuarios
+    build: ./Usuarios
     container_name: usuarios
     ports:
       - "5001:5000"  
@@ -18,7 +20,7 @@ services:
       - mysqlusuarios
 
   productos:
-    build: ./productos
+    build: ./Productos
     container_name: productos
     ports:
       - "5002:5000"  
@@ -28,7 +30,7 @@ services:
       - mysqlproductos
 
   pedidos:
-    build: ./pedidos
+    build: ./Pedidos
     container_name: pedidos
     ports:
       - "5003:5000"  

@@ -294,6 +294,8 @@
       font-weight: 600;
     }
     .btn-order:hover { background: #222; }
+    .btn-order:disabled { background: #999; cursor: not-allowed; }
+    .btn-order:disabled:hover { background: #999; }
 
     .specs { margin-top: 64px; max-width: 405px; }
     .spec {
@@ -483,12 +485,11 @@
   <script>
     /* =====================================================
        CONFIGURACIÓN
-       Por ahora el catálogo sale del arreglo "productos" de abajo.
-       Cuando el servicio Productos esté listo, cambia USAR_API a true
-       y el catálogo se cargará desde la base de datos.
+       El catálogo se carga desde el servicio Productos.
+       El arreglo local queda como respaldo si el servicio no responde.
        ===================================================== */
-    const USAR_API = false;
-    const API_PRODUCTOS = "http://localhost:5002/productos";
+    const USAR_API = true;
+    const API_PRODUCTOS = "/api/productos";
 
     const IMG = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=800&q=80`;
 
@@ -637,9 +638,12 @@
     }).format(n);
 
     const $ = (id) => document.getElementById(id);
+    const escapar = (valor) => String(valor ?? "").replace(/[&<>"']/g, caracter => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[caracter]);
 
     const imgTag = (src, alt) =>
-      `<img src="${src}" alt="${alt}" loading="lazy" onerror="this.onerror=null;this.src='${IMG_RESPALDO}'">`;
+      `<img src="${src}" alt="${escapar(alt)}" loading="lazy" onerror="this.onerror=null;this.src='${IMG_RESPALDO}'">`;
 
     const iconoNuevo = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></svg>`;
 
@@ -661,8 +665,8 @@
     function pintarFiltros() {
       const categorias = ["all", ...new Set(productos.map(p => p.categoria))];
       $("filters").innerHTML = categorias.map(c => `
-        <button class="chip ${filtro === c ? "active" : ""}" data-cat="${c}">
-          ${c === "all" ? "Todos" : (ETIQUETAS[c] || c)}
+        <button class="chip ${filtro === c ? "active" : ""}" data-cat="${escapar(c)}">
+          ${escapar(c === "all" ? "Todos" : (ETIQUETAS[c] || c))}
         </button>`).join("");
       document.querySelectorAll(".chip").forEach(b =>
         b.addEventListener("click", () => { filtro = b.dataset.cat; pintarCatalogo(); })
@@ -689,7 +693,7 @@
           </div>
           <div class="card-info">
             <div>
-              <h3 class="card-name">${p.nombre}</h3>
+            <h3 class="card-name">${escapar(p.nombre)}</h3>
               <p class="price">${moneda(p.precio)}${p.precioAnterior ? `<s>${moneda(p.precioAnterior)}</s>` : ""}</p>
             </div>
             <div class="swatches">
@@ -723,7 +727,7 @@
         <div class="detail">
           <div class="gallery">
             ${p.nuevo ? `<span class="badge">${iconoNuevo} Nuevo</span>` : ""}
-            <img id="imagen-principal" src="${p.imagenes[0]}" alt="${p.nombre}" onerror="this.onerror=null;this.src='${IMG_RESPALDO}'">
+            <img id="imagen-principal" src="${p.imagenes[0]}" alt="${escapar(p.nombre)}" onerror="this.onerror=null;this.src='${IMG_RESPALDO}'">
             <div class="thumbs">
               ${p.imagenes.map((src, i) => `
                 <button class="${i === 0 ? "active" : ""}" data-src="${src}" aria-label="Ver imagen ${i + 1}">${imgTag(src, "")}</button>`).join("")}
@@ -734,17 +738,18 @@
             <div class="crumbs">
               <button id="volver">Tienda</button>
               <span class="dot"></span>
-              <span class="cat">${ETIQUETAS[p.categoria] || p.categoria}</span>
+              <span class="cat">${escapar(ETIQUETAS[p.categoria] || p.categoria)}</span>
             </div>
-            <h1>${p.nombre}</h1>
+            <h1>${escapar(p.nombre)}</h1>
             <p class="price">${moneda(p.precio)}${p.precioAnterior ? `<s>${moneda(p.precioAnterior)}</s>` : ""}</p>
-            <p class="desc">${p.descripcion || "Sin descripción por ahora."}</p>
-            <button class="btn-order" id="btn-pedir">Pedir ahora</button>
+            <p class="desc">${escapar(p.descripcion || "Sin descripción por ahora.")}</p>
+            <button class="btn-order" id="btn-pedir" ${p.stock === 0 ? "disabled" : ""}>${p.stock === 0 ? "Agotado" : "Pedir ahora"}</button>
 
             <div class="specs">
               <div class="spec"><b>${iconoSpec("caja")} Material</b><span>${p.material || "Por definir"}</span></div>
               <div class="spec"><b>${iconoSpec("cuidado")} Cuidado</b><span>${p.cuidado || "Por definir"}</span></div>
               <div class="spec"><b>${iconoSpec("garantia")} Garantía</b><span>${p.garantia || "Por definir"}</span></div>
+              <div class="spec"><b>Disponibles</b><span>${p.stock == null ? "Por definir" : (p.stock > 0 ? escapar(p.stock) : "Agotado")}</span></div>
             </div>
           </div>
         </div>`;
@@ -807,15 +812,18 @@
     /* ---------- Carga inicial ---------- */
     async function cargarDesdeAPI() {
       try {
-        const resp = await fetch(API_PRODUCTOS);
+        const resp = await fetch(API_PRODUCTOS, { headers: { "Accept": "application/json" } });
+        if (!resp.ok) throw new Error(`Productos respondió HTTP ${resp.status}`);
         const datos = await resp.json();
+        if (!Array.isArray(datos)) throw new Error("La respuesta de Productos no es una lista");
         productos = datos.map(p => ({
           id: p.id,
           nombre: p.nombre,
           categoria: p.categoria,
           precio: Number(p.precio),
+          stock: Number(p.stock),
           precioAnterior: null,
-          nuevo: true,
+          nuevo: false,
           imagenes: [IMG("photo-1556905055-8f358a7a47b2")],
           descripcion: "",
           material: "", cuidado: "", garantia: ""

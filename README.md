@@ -190,9 +190,11 @@ services:
     ports:
       - "3000:80"
     container_name: home
+    depends_on:
+      - productos
 
   usuarios:
-    build: ./usuarios
+    build: ./Usuarios
     container_name: usuarios
     ports:
       - "5001:5000"  
@@ -202,7 +204,7 @@ services:
       - mysqlusuarios
 
   productos:
-    build: ./productos
+    build: ./Productos
     container_name: productos
     ports:
       - "5002:5000"  
@@ -212,7 +214,7 @@ services:
       - mysqlproductos
 
   pedidos:
-    build: ./pedidos
+    build: ./Pedidos
     container_name: pedidos
     ports:
       - "5003:5000"  
@@ -263,7 +265,7 @@ El comando docker build -t home:4.0 . le ordena a Docker construir una nueva ima
 
 El comando docker images sirve para ver la consulta de la base de datos de nuestro sistema para mostrar un listado completo de todas las imágenes de Docker guardadas localmente, permitiéndonos comprobar que la nueva imagen se creó correctamente junto a detalles como su ID, tamaño y fecha de creación.
 
-El comando docker compose up -d home lee la configuración de nuestro archivo compose.yml para compilar y poner en marcha únicamente el servicio especificado llamado home, ejecutándolo de forma aislada y en segundo plano sin activar los demás servicios listados en el archivo.
+El comando `docker compose up --build -d` reconstruye las imágenes y levanta los servicios definidos en `compose.yml`, incluido Productos, que el home necesita para cargar el catálogo.
 
 El comando docker ps genera un reporte en tiempo real de todos los contenedores que permanecen activos en nuestro equipo, mostrando su ID, nombre, estado actual y los puertos mapeados para que verifiques que el proceso se inició de forma exitosa.
 
@@ -296,5 +298,17 @@ Se construyeron e integraron por completo los microservicios de **Usuarios**, **
 
 ## Pendiente
 Se ha completado el desarrollo principal de la arquitectura de microservicios, bases de datos y orquestación local del sistema.
+
+## Integración del home con Productos
+
+El home solicita el catálogo en `/api/productos`. Nginx recibe esa ruta y la reenvía al servicio `productos` por la red interna de Docker. El servicio Productos consulta su propia base de datos (`productos_db`), que conserva los datos en el volumen `productos_data`. El navegador no accede directamente a MySQL.
+
+Para reconstruir y levantar el proyecto desde esta carpeta:
+
+```bash
+docker compose up --build -d
+```
+
+Luego abre `http://localhost:3000`. Compose conserva los volúmenes existentes mientras no se eliminen explícitamente. El catálogo local de demostración queda como respaldo si la API no responde. Como la tabla actual no contiene una URL o ruta de imagen, los productos provenientes de la API usan por ahora la imagen genérica del home.
 
 

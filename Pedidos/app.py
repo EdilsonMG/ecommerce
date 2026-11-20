@@ -40,6 +40,7 @@ def buscar(id):
     url_p= (
             os.getenv("PRODUCTOS_URL") + "/productos/"+ str(idProducto))
 
+<<<<<<< Updated upstream
     try:
         usuario = requests.get(url_u)
     except requests.exceptions.ConnectionError:
@@ -48,6 +49,48 @@ def buscar(id):
         producto = requests.get(url_p)
     except requests.exceptions.ConnectionError:
             return jsonify({"mensaje": "Servicio de productos no esta disponible"}), 502
+=======
+    def consultar(url, timeout, circuito, nombre):
+        try:
+            with circuito.calling():
+                respuesta = requests.get(url, timeout=timeout)
+                if respuesta.status_code >= 500:
+                    respuesta.raise_for_status()
+            return respuesta, None
+        except pybreaker.CircuitBreakerError:
+            return None, (f"Circuito abierto: {nombre} no disponible", 503)
+        except requests.exceptions.Timeout:
+            return None, (f"{nombre} tardó mucho tiempo en responder", 504)
+        except requests.exceptions.ConnectionError:
+            return None, (f"Servicio de {nombre} no está disponible", 503)
+        except requests.exceptions.HTTPError:
+            return None, (f"Error del servidor de {nombre}", 502)
+
+    usuario, error_usuario = consultar(
+        url_u, tiempo_maximo_u, circuito_usuarios, "Usuarios"
+    )
+    producto, error_producto = consultar(
+        url_p, tiempo_maximo_p, circuito_productos, "Productos"
+    )
+
+    if error_usuario and error_producto:
+        return jsonify({"mensaje": "Los servicios no están disponibles"}), 503
+    if error_usuario:
+        return jsonify({"mensaje": error_usuario[0]}), error_usuario[1]
+    if error_producto:
+        return jsonify({"mensaje": error_producto[0]}), error_producto[1]
+
+    if usuario.status_code == 404:
+        return jsonify({"mensaje": "Respuesta inesperada de usuarios"}), 404
+    if usuario.status_code != 200:
+        return jsonify({"mensaje": "Respuesta inesperada de usuarios"}), 502
+
+    if producto.status_code == 404:
+        return jsonify({"mensaje": "Respuesta inesperada de productos"}), 404
+    if producto.status_code != 200:
+        return jsonify({"mensaje": "Respuesta inesperada de productos"}), 502
+
+>>>>>>> Stashed changes
     datosusuario = usuario.json()
     datospro = producto.json()
     return jsonify({
@@ -59,6 +102,27 @@ def buscar(id):
             "fechaPedido": pedido["fechaPedido"]
         }), 200
 
+<<<<<<< Updated upstream
+=======
+@app.route("/circuito/usuarios", methods=["GET"])
+def estado_usuarios():
+    return jsonify({
+        "estado": circuito_usuarios.current_state.upper(),
+        "fallos_consecutivos": circuito_usuarios.fail_counter,
+        "umbral_fallos": circuito_usuarios.fail_max,
+        "periodo_recuperacion": circuito_usuarios.reset_timeout
+    })
+
+@app.route("/circuito/productos", methods=["GET"])
+def estado_productos():
+    return jsonify({
+        "estado": circuito_productos.current_state.upper(),
+        "fallos_consecutivos": circuito_productos.fail_counter,
+        "umbral_fallos": circuito_productos.fail_max,
+        "periodo_recuperacion": circuito_productos.reset_timeout
+    })
+
+>>>>>>> Stashed changes
 
 @app.route("/pedidos", methods=["POST"])
 def crear():

@@ -20,6 +20,10 @@ def listar():
 
 @app.route("/usuarios/<int:id>", methods=["GET"])
 def buscar(id):
+<<<<<<< Updated upstream
+=======
+    #time.spleep(5)  
+>>>>>>> Stashed changes
     conexion = conectar()
     cursor = conexion.cursor(dictionary=True)
     sql = """
