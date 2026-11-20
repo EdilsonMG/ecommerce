@@ -13,7 +13,7 @@ def conectar():
                 database = os.getenv("USUARIOS_DB_NAME")
             )
             return conexion 
-        except mysql.connector.error:
+        except mysql.connector.Error:
             print("La base de datos  aun esta cargando")
             intento + 1
             time.sleep(3)
