@@ -22,11 +22,21 @@ def reenviar(metodo, url):
         }), 503
 
 
-@app.route("/productos",methods = ["GET", "POST", "PATCH"])
+@app.route("/productos",methods = ["GET", "POST"])
 def ruta_producto():
     return reenviar(request.method, PRODUCTOS_URL + "/productos")
 app.run(host="0.0.0.0", port = 5000)
 
-@app.route("/productos/<path:ruta>", methods=["GET", "DELETE"])
+@app.route("/productos/<path:ruta>", methods=["GET", "DELETE", "PATCH"])
 def ruta_producto_detalle(ruta):
     return reenviar(request.method, PRODUCTOS_URL + "/productos/" + ruta)
+
+
+@app.route("/pedidos",methods = ["GET", "POST"])
+def ruta_pedido():
+    return reenviar(request.method, PEDIDOS_URL + "/pedidos")
+app.run(host="0.0.0.0", port = 5000)
+
+@app.route("/pedidos/<path:ruta>", methods=["GET", "DELETE", "PATCH"])
+def ruta_pedido_detalle(ruta):
+    return reenviar(request.method, PEDIDOS_URL + "/pedidos/" + ruta)
