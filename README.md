@@ -164,6 +164,14 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | **Home** | **Gateway** | `/pedidos` | `POST` | Envía los datos de la compra (`idUsuario`, `idProducto`, `cantidad`, `estado`, `valortotal`, `fechaPedido`) y recibe la confirmación con el ID generado. |
 | **Gateway** | **Usuarios / Productos / Pedidos** | `/usuarios`, `/productos`, `/pedidos` | `GET`, `POST`, `PUT`, `PATCH`, `DELETE` | Reenvía las peticiones HTTP de los clientes hacia cada microservicio correspondiente y devuelve la respuesta JSON con su código de estado. |
 
+## Implementación de Circuit Breaker
+| Parámetro | Valor implementado |
+| --- | --- |
+| **Servicio que realiza la solicitud** | Servicio de Pedidos (`/pedidos/<int:id>/detalle`) |
+| **Servicio protegido** | Servicio de Usuarios (`USUARIOS_URL`) y Servicio de Productos (`PRODUCTOS_URL`) |
+| **Umbral de fallas** | `3` fallos consecutivos (`CB_MAX_FALLOS`, por defecto `"3"`) |
+| **Tiempo de recuperación** | `30` segundos (`CB_RECUPERACION`, por defecto `"30"`) |
+| **Timeout configurado** | `2.0` segundos para ambos (`USUARIOS_TIMEOUT` y `PRODUCTOS_TIMEOUT`, por defecto `"2"`) |
 ## Como levantar el contenedor
 docker compose up --build
 
