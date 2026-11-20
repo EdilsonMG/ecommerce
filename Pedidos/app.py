@@ -1,11 +1,22 @@
 from flask import Flask, jsonify, request
-import requests, os
+import requests, os, pybreaker
 from database import conectar
 
 url_usuarios = os.getenv("USUARIOS_URL")
 url_productos = os.getenv("PRODUCTOS_URL")
 
 app = Flask(__name__)
+
+circuito_usuarios = pybreaker.CircuitBreaker(
+    fail_max=int(os.getenv("CB_MAX_FALLOS", "3")),
+    reset_timeout=int(os.getenv("CB_RECUPERACION", "30")),
+    throw_new_error_on_trip=False
+)
+circuito_productos = pybreaker.CircuitBreaker(
+    fail_max=int(os.getenv("CB_MAX_FALLOS", "3")),
+    reset_timeout=int(os.getenv("CB_RECUPERACION", "30")),
+    throw_new_error_on_trip=False
+)
 
 
 @app.route("/pedidos")
@@ -21,6 +32,9 @@ def listar():
 
 @app.route("/pedidos/<int:id>/detalle")
 def buscar(id):
+    tiempo_maximo_u = float(os.getenv("USUARIOS_TIMEOUT", "2"))
+    tiempo_maximo_p = float(os.getenv("PRODUCTOS_TIMEOUT", "2"))
+
     conexion = conectar()
     cursor = conexion.cursor(dictionary=True)
     sql = "SELECT * FROM pedidos WHERE id = %s"
@@ -40,16 +54,6 @@ def buscar(id):
     url_p= (
             os.getenv("PRODUCTOS_URL") + "/productos/"+ str(idProducto))
 
-<<<<<<< Updated upstream
-    try:
-        usuario = requests.get(url_u)
-    except requests.exceptions.ConnectionError:
-        return jsonify({"mensaje": "Servicio de usuarios no esta disponible"}), 502
-    try:
-        producto = requests.get(url_p)
-    except requests.exceptions.ConnectionError:
-            return jsonify({"mensaje": "Servicio de productos no esta disponible"}), 502
-=======
     def consultar(url, timeout, circuito, nombre):
         try:
             with circuito.calling():
@@ -90,7 +94,6 @@ def buscar(id):
     if producto.status_code != 200:
         return jsonify({"mensaje": "Respuesta inesperada de productos"}), 502
 
->>>>>>> Stashed changes
     datosusuario = usuario.json()
     datospro = producto.json()
     return jsonify({
@@ -102,8 +105,6 @@ def buscar(id):
             "fechaPedido": pedido["fechaPedido"]
         }), 200
 
-<<<<<<< Updated upstream
-=======
 @app.route("/circuito/usuarios", methods=["GET"])
 def estado_usuarios():
     return jsonify({
@@ -121,8 +122,6 @@ def estado_productos():
         "umbral_fallos": circuito_productos.fail_max,
         "periodo_recuperacion": circuito_productos.reset_timeout
     })
-
->>>>>>> Stashed changes
 
 @app.route("/pedidos", methods=["POST"])
 def crear():
