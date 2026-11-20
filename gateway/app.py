@@ -25,7 +25,7 @@ def reenviar(metodo, url):
 @app.route("/productos",methods = ["GET", "POST"])
 def ruta_producto():
     return reenviar(request.method, PRODUCTOS_URL + "/productos")
-app.run(host="0.0.0.0", port = 5000)
+
 
 @app.route("/productos/<path:ruta>", methods=["GET", "DELETE", "PATCH"])
 def ruta_producto_detalle(ruta):
@@ -35,8 +35,19 @@ def ruta_producto_detalle(ruta):
 @app.route("/pedidos",methods = ["GET", "POST"])
 def ruta_pedido():
     return reenviar(request.method, PEDIDOS_URL + "/pedidos")
-app.run(host="0.0.0.0", port = 5000)
+
 
 @app.route("/pedidos/<path:ruta>", methods=["GET", "DELETE", "PATCH"])
 def ruta_pedido_detalle(ruta):
     return reenviar(request.method, PEDIDOS_URL + "/pedidos/" + ruta)
+
+@app.route("/usuarios",methods = ["GET", "POST"])
+def ruta_usuario():
+    return reenviar(request.method, USUARIOS_URL + "/usuarios")
+
+
+@app.route("/usuarios/<path:ruta>", methods=["GET", "DELETE", "PATCH"])
+def ruta_usuario_detalle(ruta):
+    return reenviar(request.method, USUARIOS_URL + "/usuarios/" + ruta)
+
+app.run(host="0.0.0.0", port = 5000)
