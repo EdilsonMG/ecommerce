@@ -7,17 +7,8 @@ url_productos = os.getenv("PRODUCTOS_URL")
 
 app = Flask(__name__)
 
-circuito_usuarios = pybreaker.CircuitBreaker(
-    fail_max=int(os.getenv("CB_MAX_FALLOS", "3")),
-    reset_timeout=int(os.getenv("CB_RECUPERACION", "30")),
-    throw_new_error_on_trip=False
-)
-circuito_productos = pybreaker.CircuitBreaker(
-    fail_max=int(os.getenv("CB_MAX_FALLOS", "3")),
-    reset_timeout=int(os.getenv("CB_RECUPERACION", "30")),
-    throw_new_error_on_trip=False
-)
-
+circuito_usuarios = pybreaker.CircuitBreaker(fail_max=int(os.getenv("CB_MAX_FALLOS", "3")), reset_timeout=int(os.getenv("CB_RECUPERACION", "30")), throw_new_error_on_trip=False)
+circuito_productos = pybreaker.CircuitBreaker(fail_max=int(os.getenv("CB_MAX_FALLOS", "3")), reset_timeout=int(os.getenv("CB_RECUPERACION", "30")), throw_new_error_on_trip=False) 
 
 @app.route("/pedidos")
 def listar():
@@ -96,6 +87,7 @@ def buscar(id):
 
     datosusuario = usuario.json()
     datospro = producto.json()
+    
     return jsonify({
             "usuario": datosusuario.get("nombre"),
             "producto": datospro.get("nombre"),
