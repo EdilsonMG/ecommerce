@@ -155,6 +155,15 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | **Productos** | `productos_db` (`mysqlproductos` - MySQL 8.0) | `productos` (`id`, `nombre`, `categoria`, `precio`, `stock`) | `SELECT` (`GET`), `INSERT` (`POST`), `UPDATE` (`PUT`, `PATCH`), `DELETE` (`DELETE`) |
 | **Pedidos** | `pedidos_db` (`mysqlpedidos` - MySQL 8.0) | `pedidos` (`id`, `idUsuario`, `idProducto`, `cantidad`, `estado`, `valortotal`, `fechaPedido`) | `SELECT` (`GET`), `INSERT` (`POST`), `UPDATE` (`PUT`, `PATCH`), `DELETE` (`DELETE`) |
 
+## Documentación de la comunicación
+| Servicio solicitante | Servicio destino | Endpoint | Método HTTP | Información intercambiada |
+| :--- | :--- | :--- | :--- | :--- |
+| **Pedidos** | **Usuarios** | `/usuarios/{id}` | `GET` | Envía el `idUsuario` del pedido y recibe los datos del cliente (`id`, `nombre`, `email`) para consolidar el detalle de la orden. |
+| **Pedidos** | **Productos** | `/productos/{id}` | `GET` | Envía el `idProducto` del pedido y recibe la información del artículo (`id`, `nombre`, `categoria`, `precio`, `stock`) para consolidar el detalle de la orden. |
+| **Home** | **Gateway** | `/productos` | `GET` | Solicita y recibe el listado completo de productos del catálogo para mostrarlos en la interfaz principal. |
+| **Home** | **Gateway** | `/pedidos` | `POST` | Envía los datos de la compra (`idUsuario`, `idProducto`, `cantidad`, `estado`, `valortotal`, `fechaPedido`) y recibe la confirmación con el ID generado. |
+| **Gateway** | **Usuarios / Productos / Pedidos** | `/usuarios`, `/productos`, `/pedidos` | `GET`, `POST`, `PUT`, `PATCH`, `DELETE` | Reenvía las peticiones HTTP de los clientes hacia cada microservicio correspondiente y devuelve la respuesta JSON con su código de estado. |
+
 ## Como levantar el contenedor
 docker compose up --build
 
