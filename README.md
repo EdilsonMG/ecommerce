@@ -139,7 +139,7 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | `PRODUCTOS_URL` | URL de acceso al microservicio de Productos (`http://productos:5000`) |
 
 
-##
+## Inventario de servicios
 | Microservicio | Responsabilidad | Base de datos | Comunicación con otros servicios | Estado |
 | :--- | :--- | :--- | :--- | :--- |
 | **Usuarios** | Gestionar el registro, consulta, actualización y eliminación (CRUD) de los clientes de la plataforma. | `usuarios_db` (`mysqlusuarios` - MySQL 8.0) | Recibe peticiones HTTP `GET /usuarios/{id}` desde **Pedidos** (para validar los datos del cliente) y tráfico enrutado desde **Gateway**. | Implementado |
@@ -147,6 +147,13 @@ Cada microservicio tiene su propia base de datos personal, así cuando haya un p
 | **Pedidos** | Procesar las órdenes de compra de los clientes y consolidar el detalle completo de cada pedido. | `pedidos_db` (`mysqlpedidos` - MySQL 8.0) | Consulta vía HTTP a **Usuarios** y **Productos** aplicando **Timeout (2s)** y **Circuit Breaker**; recibe tráfico enrutado desde **Gateway**. | Implementado |
 | **Gateway** | Punto único de entrada centralizado; enruta solicitudes HTTP hacia cada microservicio y gestiona errores de red (`503`, `504`). | No aplica (Stateless) | Recibe peticiones de **Home** y clientes externos, y las redirige internamente hacia **Usuarios**, **Productos** y **Pedidos**. | Implementado |
 | **Home** | Interfaz web principal (Frontend en Nginx) que muestra el catálogo de productos y permite registrar pedidos reales. | No aplica (Frontend) | Envía solicitudes REST (`/productos`, `/pedidos`) hacia **Gateway**. | Implementado |
+
+## Documentación de bases de datos
+| Microservicio | Base de datos | Tablas principales | Operaciones implementadas |
+| :--- | :--- | :--- | :--- |
+| **Usuarios** | `usuarios_db` (`mysqlusuarios` - MySQL 8.0) | `usuarios` (`id`, `nombre`, `email`) | `SELECT` (`GET`), `INSERT` (`POST`), `UPDATE` (`PUT`, `PATCH`), `DELETE` (`DELETE`) |
+| **Productos** | `productos_db` (`mysqlproductos` - MySQL 8.0) | `productos` (`id`, `nombre`, `categoria`, `precio`, `stock`) | `SELECT` (`GET`), `INSERT` (`POST`), `UPDATE` (`PUT`, `PATCH`), `DELETE` (`DELETE`) |
+| **Pedidos** | `pedidos_db` (`mysqlpedidos` - MySQL 8.0) | `pedidos` (`id`, `idUsuario`, `idProducto`, `cantidad`, `estado`, `valortotal`, `fechaPedido`) | `SELECT` (`GET`), `INSERT` (`POST`), `UPDATE` (`PUT`, `PATCH`), `DELETE` (`DELETE`) |
 
 ## Como levantar el contenedor
 docker compose up --build
